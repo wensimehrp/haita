@@ -1,5 +1,7 @@
 #import "lib.typ": *
 
+#let document-page = document-page.with(root: "/otter-docs/")
+
 #document-page(route: "index.html", title: "Otter Docs Documentation", description: "Foo bar stuff")[
   = Welcome to Otter Docs
 
