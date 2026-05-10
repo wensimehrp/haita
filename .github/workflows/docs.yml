@@ -28,12 +28,12 @@ jobs:
       - uses: DeterminateSystems/magic-nix-cache-action@v13
 
       - name: Build docs
-        run: nix develop .#default --command typst compile ./doc.typ ./doc/index.html --features bundle,html --format bundle
+        run: nix develop .#default --command typst compile ./doc.typ --features bundle,html --format bundle
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./doc
+          path: ./doc/otter-docs
 
   deploy:
     needs: build-docs
