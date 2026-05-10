@@ -1,0 +1,44 @@
+name: Build Docs
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Download and install Typhoon
+        run: |
+          curl -L -o dist.tar.xz \
+            https://github.com/WenSimEHRP/tailwindcss-typst/releases/download/0.1.0/dist.tar.xz
+          tar -xf dist.tar.xz
+          mkdir -p ~/.local/share/typst/packages/local/typhoon/0.1.0
+          mv dist/* ~/.local/share/typst/packages/local/typhoon/0.1.0/
+
+      - uses: DeterminateSystems/nix-installer-action@v20
+      - uses: DeterminateSystems/magic-nix-cache-action@v13
+
+      - name: Build docs
+        run: nix develop .#default --command typst c ./doc.typ ./doc/index.html
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./doc
+
+  deploy:
+    needs: build-docs
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    steps:
+      - uses: actions/deploy-pages@v5
