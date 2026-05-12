@@ -1,7 +1,8 @@
 #import "lib.typ": *
-#let version = toml("typst.toml").package.version
+#import "@preview/cmarker:0.1.8"
 
-#book(root: "otter-docs", tree: (
+#book(title: "Otter Docs Documentation", root: "otter-docs", tree: (
   chapter("index", content: include "doc/intro.typ"),
-  chapter("doc/installing"),
+  chapter("doc/tutorial"),
+  chapter("changelog", content: title[Changelog] + cmarker.render(read("CHANGELOG.md"))),
 ))

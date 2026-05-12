@@ -1,40 +1,22 @@
-#let paged-renderer(c, ..args) = {
-  // c
-}
-
-// Documents are separated by pages.
-#let prose-classes = {
-  for (level, font-size) in (
-    h1: "text-3xl",
-    h2: "text-2xl",
-    h3: "text-xl",
-  ) {
-    let selector = "[&>" + level + "]:"
-    ("font-bold", "mt-8", font-size).map(it => selector + it)
-  }
-  ("[&>p]:mt-4",)
-}
-
-#let heading-body-to-id(h) = {
-  let t = h.body.fields().text
-  lower(t).replace(regex("\s+"), "-")
-}
-
-#let summary-renderer(current-tree, page-path) = for it in current-tree {
+#let summary-renderer(current-tree, current-chapter) = for it in current-tree {
   import html: *
   div(
-    class: "w-full relative",
+    class: "w-full relative "
+      + if it.kind == "chapter" {
+        (
+          "block py-1 px-2 min-h-8 relative "
+            + if it.page-label == current-chapter.page-label {
+              "bg-neutral-200"
+            } else {
+              "hover:bg-neutral-200"
+            }
+        )
+          .split(" ")
+          .map(it => "[&>a]:" + it)
+          .join(" ")
+      },
     if it.kind == "chapter" {
-      a(
-        href: "/" + it.path.join("/") + ".html",
-        class: "block py-1 px-2 min-h-8 relative "
-          + if it.path == page-path {
-            "bg-blue-100"
-          } else {
-            "hover:bg-neutral-200"
-          },
-        it.kind,
-      )
+      std.link(it.page-label, it.title)
       if it.children.len() > 0 {
         input(
           class: "absolute peer top-2 right-2 h-4 w-4",
@@ -45,10 +27,10 @@
     } else {
       div(class: "p-2", it.content)
     }
-      + if it.children.len() > 0 {
+      + if "children" in it and it.children.len() > 0 {
         div(
           class: "ml-3 border-neutral-300 border-l border-b col-start-2 col-span-2 hidden peer-checked:block",
-          summary-renderer(it.children, page-path),
+          summary-renderer(it.children, current-chapter),
         )
       },
   )
@@ -58,35 +40,49 @@
   let out = ()
   for it in tree {
     let base = it
-    let _ = base.remove("children")
-    out.push(base)
-    out += flatten-tree(it.children)
+    if "children" in base {
+      let _ = base.remove("children")
+      out.push(base)
+      out += flatten-tree(it.children)
+    } else {
+      out.push(base)
+    }
   }
   out
 }
 
-#let footer-renderer(final-tree, current) = html.footer(class: "mt-4 py-8 grid grid-cols-[1fr_1fr] gap-4", {
-  let flattened = flatten-tree(final-tree)
-  let current-idx = flattened.position(it => it.path == current.path)
-  let link-classes = " border-1 border-neutral-300 p-4 hover:bg-neutral-100 hover:shadow-xs "
-  if current-idx == none {
-    return
-  }
-  if current-idx > 0 {
-    let info = flattened.at(current-idx - 1)
-    html.a(class: "col-start-1" + link-classes, href: "/" + info.path.join("/") + ".html", "« " + info.kind)
-  }
-  if current-idx < flattened.len() - 1 {
-    let info = flattened.at(current-idx + 1)
-    html.a(class: "col-start-2 text-right" + link-classes, href: "/" + info.path.join("/") + ".html", info.kind + " »")
-  }
-  html.p(class: "col-span-2 text-xs text-center")[
-    Powered by #html.a(href: "https://github.com/wensimehrp/otter-docs")[Otter Docs]. Made in Vancouver with love.
-  ]
-})
+#let footer-renderer(final-tree, current) = html.footer(
+  class: "mt-8 grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-4",
+  {
+    // TODO: change this to dictionary based
+    let flattened = flatten-tree(final-tree).filter(it => it.kind == "chapter")
+    let current-idx = flattened.position(it => it.page-label == current.page-label)
+    let link-classes = " border-1 border-neutral-300 hover:bg-neutral-100 hover:shadow-xs [&>a]:block [&>a]:w-full [&>a]:h-full [&>a]:p-4 "
+    if current-idx == none {
+      return
+    }
+    if current-idx > 0 {
+      let info = flattened.at(current-idx - 1)
+      html.div(
+        class: link-classes,
+        link(info.page-label, info.title),
+      )
+    }
+    if current-idx < flattened.len() - 1 {
+      let info = flattened.at(current-idx + 1)
+      html.div(
+        class: "md:col-start-2 text-right " + link-classes,
+        link(info.page-label, info.title),
+      )
+    }
+    html.span(class: "md:col-span-2 text-xs text-center")[
+      Powered by #link("https://github.com/wensimehrp/otter-docs")[Otter Docs]. Made in Vancouver with love.
+    ]
+  },
+)
 
 #let internal-html-renderer(final-tree, it, path) = document(path, html.div({
-  import "@local/typhoon:0.1.0": *
+  import "@local/typhoon:0.1.2": *
   import html: *
   show: tailwind-page
 
@@ -101,13 +97,12 @@
       div(
         class: "border-t border-neutral-300 overflow-x-auto",
         {
-          summary-renderer(final-tree, it.path)
+          summary-renderer(final-tree, it)
         },
       )
     },
   )
-  div(class: "p-8 max-w-4xl md:ml-72 " + prose-classes.join(" "), {
-    header()[Something Documentation]
+  article(class: "p-8 max-w-4xl md:ml-72 prose prose-neutral leading-normal prose-pre:rounded-none", {
     it.content
     footer-renderer(final-tree, it)
   })
@@ -121,12 +116,16 @@
         final-tree,
         it,
         path,
-      ) #label("page:" + path)
+      ) #it.page-label
     ]
-    recursive-html-renderer(final-tree, it.children)
+    recursive-html-renderer(final-tree, it.at("children", default: ()))
   }
 }
 
 #let html-renderer(tree, ..args) = {
   recursive-html-renderer(tree, tree)
 }
+
+#let paged-renderer(tree, root: (), ..args) = [#document(root.join("/") + "/doc.pdf", for it in flatten-tree(tree) {
+  it.content
+}) <doc.pdf>]

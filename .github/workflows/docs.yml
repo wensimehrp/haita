@@ -19,10 +19,10 @@ jobs:
       - name: Download and install Typhoon
         run: |
           curl -L -o dist.tar.xz \
-            https://github.com/WenSimEHRP/tailwindcss-typst/releases/download/0.1.0/dist.tar.xz
-          tar -xf dist.tar.xz
-          mkdir -p ~/.local/share/typst/packages/local/typhoon/0.1.0
-          mv dist/* ~/.local/share/typst/packages/local/typhoon/0.1.0/
+            https://github.com/WenSimEHRP/tailwindcss-typst/releases/download/0.1.2/typhoon.tar.xz
+          tar -xf typhoon.tar.xz
+          mkdir -p ~/.local/share/typst/packages/local/typhoon/0.1.2
+          mv dist/* ~/.local/share/typst/packages/local/typhoon/0.1.2/
 
       - uses: DeterminateSystems/nix-installer-action@v20
       - uses: DeterminateSystems/magic-nix-cache-action@v13
