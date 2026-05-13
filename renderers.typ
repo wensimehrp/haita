@@ -1,3 +1,5 @@
+// Default theme "New Hamber"
+
 #let summary-renderer(current-tree, current-chapter) = for it in current-tree {
   html.div(
     class: "w-full relative"

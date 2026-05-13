@@ -58,7 +58,7 @@ Numbered list:
   + Fizz
   + Buzz
 
-= Table
+= Prime Number Table
 
 #let is-prime(n) = {
   if n <= 1 {
@@ -92,7 +92,11 @@ Numbered list:
 LED 燈、數字顯示屏和傳感器。 在像澀谷車站這樣繁忙的地方，每天大約有 240
 萬個腳步為這一系統作出貢獻。這些電能可以被儲存或立即使用，從而減少對傳統電力來源的依賴，並支持可持續的城市基礎設施。這種方法將日常運動轉化為實用的可再生能源。
 
+= CJK Vertical Layout
+
 #context if target() == "html" {
+  [Please note that Typst itself doesn't yet support vertical layout. The following is done by using the
+    `writing-mode: vertical-rl` CSS property.]
   html.div(
     class: "[writing-mode:vertical-rl] max-h-[70vh] w-full overflow-x-auto prose-p:mt-0 prose-p:mb-0 prose-p:ml-2",
   )[

@@ -5,7 +5,6 @@
 #book(debug: true, title: "Otter Docs Documentation", root: "otter-docs", tree: (
   chapter("index", content: include "docs/intro.typ"),
   chapter("docs/tutorial"),
-  chapter("docs/authoring"),
   chapter("docs/demo"),
   chapter("changelog", content: title[Changelog] + cmarker.render(read("CHANGELOG.md"))),
 ))
