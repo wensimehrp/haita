@@ -1,6 +1,7 @@
 #title[Introduction]
 
 #let version = toml("../typst.toml").package.version
+#let typst-min-version-hash = read("../flake.nix").match(regex("rev\s*=\s*\"([^\"]+)")).captures.at(0)
 
 Welcome to the documentation for Otter Docs #version.
 
@@ -20,11 +21,10 @@ tool required.
 = An Unfinished Project
 
 Otter Docs is a decent choice for organizing long, comprehensive documentation. But just like Typst, Otter Docs is an
-unfinished project, and is (currently) not a serious tool. Specifically, it's missing these stuff:
+unfinished project, and is (currently) not a serious tool. Specifically, it's missing these features:
 
-- Search engine optimizations (SEO)
-- HTML minification; useful for reducing the page size without losing content
-- Proper footnote support
+- Search engine optimizations (SEO). Currently there are only a minimal amount of those optimizations;
+- HTML minification; useful for reducing the page size without losing content.
 
 However, if you want pure Typst documentation, ease of use, and/or MathML formulae, you might want to give it a try. If
 you want stability and extremely easy syntax, then maybe you should consider mdBook. If you have any issues, please feel
@@ -36,7 +36,7 @@ contribute, please #link("https://github.com/wensimehrp/otter-docs/pulls")[open 
 Because Otter Docs is a pure Typst framework, you do not need to install other tools. No Python, no shell scripts, only
 Typst. However, there are some caveats. Otter Docs is not currently available on the Typst Universe, and it requires a
 #link(
-  "https://github.com/typst/typst/commit/de6f400976f9bf6ab8b923d13a068722959d0070",
+  "https://github.com/typst/typst/commit/" + typst-min-version-hash,
 )[very specific version of Typst]. You would, unfortunately, have to build the compiler yourself. If you are a Nix user,
 you can use the `flake.nix` file in the repository to setup the environment.
 

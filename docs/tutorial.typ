@@ -94,11 +94,10 @@ target.
     "https://documenter.juliadocs.org/stable/",
   )[Documenter.jl]'s "Documenter" theme, which is based on sphinx's #link(
     "https://github.com/readthedocs/sphinx_rtd_theme",
-  )[sphinx_rtd_theme]. You can also take a look at the #link(<doc.pdf>)[PDF document].
+  )[sphinx_rtd_theme]. // You can also take a look at the #link(<doc.pdf>)[PDF document].
 
   #let youtube-video-player = html.iframe.with(
-    width: 560,
-    height: 315,
+    class: "w-full aspect-video",
     title: "YouTube video player",
     allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
     referrerpolicy: "strict-origin-when-cross-origin",
@@ -109,13 +108,6 @@ target.
     caption: [Watch something ★funky★],
     youtube-video-player(
       src: "https://www.youtube-nocookie.com/embed/rl7ppuXMfC8",
-    ),
-  )
-
-  #figure(
-    caption: [Local milk company's advertisement],
-    youtube-video-player(
-      src: "https://www.youtube-nocookie.com/embed/3RkOxncIiWM",
     ),
   )
 ] else [

@@ -11,22 +11,14 @@
     if it.kind == "chapter" {
       html.div(
         class: "block w-full px-2 py-1".split(" ").map(it => "[&>a]:" + it).join(" "),
-        std.link(
-          it.page-label,
-          it.title,
-        ),
+        std.link(it.page-label, it.title),
       )
       if it.page-label == current-chapter.page-label {
         html.div(
           class: " mx-2 border-t border-neutral-300 "
             + "px-2 py-1 block hover:bg-neutral-200".split(" ").map(it => "[&>a]:" + it).join(" "),
-          for (
-            heading,
-            href,
-          ) in (
-            it.headings
-          ) {
-            html.a(href: href, heading.body)
+          for label in it.headings {
+            std.link(label, query(label).at(0).body)
           },
         )
       }
@@ -94,31 +86,24 @@
   },
 )
 
-#let internal-html-renderer(final-tree, it, path) = document(path, html.div({
-  import "@local/typhoon:0.1.2": *
+#let internal-html-renderer(final-tree, it) = html.div({
   import html: *
-  show: tailwind-page.with(config: (
-    preflight: (full: (font_family_sans: "Radio Canada")),
-  ))
-  let footnote-state = state(path + " Footnote State", ())
+  let footnote-state = state(str(it.page-label) + " Footnote State", ())
   // discard auto generated footnote entries since we manually display them
-  show footnote: it => {
+  show footnote: it => span(class: "footnote", {
     footnote-state.update(state => state + (it,))
     let len = footnote-state.get().len()
     let final-len = footnote-state.final().len()
-    sup(
-      id: "loc-" + str(len),
-      a(
-        href: "#loc-" + str(final-len + len),
-        numbering(it.numbering, len + 1),
-      ),
+    sup(id: "loc-" + str(len), a(
+      href: "#loc-" + str(final-len + len),
+      numbering(it.numbering, len + 1),
+    ))
+    span(
+      class: "footnote-popup",
+      it.body,
     )
-  }
-  show footnote.entry: it => []
-
-  style(
-    "@import url('https://fonts.googleapis.com/css2?family=Radio+Canada:ital,wdth,wght@0,90,300..700;1,90,300..700&display=swap');",
-  )
+  })
+  // show footnote.entry: it => []
 
   input(class: "z-10 fixed peer md:hidden top-4 left-4 checked:translate-x-72 transition-transform", type: "checkbox")
   nav(
@@ -137,7 +122,7 @@
     },
   )
   article(
-    class: "p-8 max-w-[52rem] md:ml-72 prose prose-neutral leading-normal prose-pre:bg-neutral-100 prose-pre:text-neutral-900 prose-pre:rounded-none font-[450]",
+    class: "p-3 sm:p-6 md:p-8 max-w-[52rem] md:ml-72 prose prose-neutral leading-normal prose-pre:bg-neutral-100 prose-pre:text-neutral-900 prose-pre:rounded-none font-[450]",
     {
       it.content
       // footnote
@@ -161,25 +146,75 @@
       footer-renderer(final-tree, it)
     },
   )
-}))
+})
 
-#let recursive-html-renderer(final-tree, current-tree) = {
-  for it in current-tree {
-    if it.kind == "chapter" [
-      #let path = "/" + it.path.join("/") + ".html"
-      #internal-html-renderer(
-        final-tree,
-        it,
-        path,
-      ) #it.page-label
-    ]
-    recursive-html-renderer(final-tree, it.at("children", default: ()))
+#let update-elem(elem, state: none) = {
+  let classes = elem.fields().attrs.at("class", default: ())
+  if type(classes) == array {
+    classes = classes.join(" ")
   }
+  state.update(it => it + " " + classes)
+  elem
 }
 
-#let html-renderer(tree, ..args) = {
-  recursive-html-renderer(tree, tree)
+#let recursive-html-renderer(final-tree, current-tree, lang, stylesheet) = for it in current-tree {
+  if it.kind == "chapter" [
+    #let path-str = "/" + it.path.join("/") + ".html"
+    #document(
+      path-str,
+      html.html(lang: lang, {
+        import html: *
+        head({
+          meta(charset: "utf-8")
+          meta(name: "viewport", content: "width=device-width, initial-scale=1")
+          title(it.title)
+          // TODO: finish description here
+          meta(name: "description", content: "...")
+          stylesheet
+        })
+        internal-html-renderer(final-tree, it)
+      }),
+    ) #it.page-label
+  ]
+  recursive-html-renderer(
+    final-tree,
+    it.at("children", default: ()),
+    lang,
+    stylesheet,
+  )
 }
+
+
+#let html-renderer(tree, lang: "en", root: (), ..args) = {
+  // first generate the tailwind preflight
+  import "@local/typhoon:0.1.2"
+  let stylesheet-path = "/" + root.join("/") + "/styles.css"
+  let page-classes = state("__new_hamber page classes", "")
+  asset(
+    stylesheet-path,
+    typhoon._plugin.generate(bytes(page-classes.final()), cbor.encode((
+      preflight: (full: (font_family_sans: "Cabin")),
+    )))
+      + bytes("\n")
+      + read("footnote.css", encoding: none),
+  )
+  // then generate html files
+  show html.elem: update-elem.with(state: page-classes)
+  recursive-html-renderer(
+    tree,
+    tree,
+    lang,
+    // to prevent too much bloat in html files
+    // and to reuse the classes
+    {
+      html.link(rel: "stylesheet", href: stylesheet-path)
+      html.style(
+        "@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');",
+      )
+    },
+  )
+}
+
 
 #let paged-renderer(tree, root: (), ..args) = [#document(root.join("/") + "/doc.pdf", for it in flatten-tree(tree) {
   it.content

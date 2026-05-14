@@ -44,39 +44,33 @@
         content: it,
       )
     }
+    let path-str = none
     if "path" in it {
       it.path = root + it.path
-      it.insert("page-label", label("page:/" + it.path.join("/")))
+      path-str = it.path.join("/")
+      it.insert("page-label", label("page:/" + path-str))
     }
     if it.kind == "chapter" {
-      // The correct practise is to use label here; however we couldn't use that because of
-      // https://github.com/typst/typst/issues/2926
-      // So we manually construct (heading, href) pairs instead
-      let chapter-heading-state = state(it.path.join("/") + " chapter state", ())
-      let chapter-title-state = state(it.path.join("/") + " title state", none)
+      let chapter-heading-state = state(path-str + " chapter state", ())
+      let chapter-title-state = state(path-str + " title state", none)
       it.content = {
-        show heading.where(level: 1, outlined: true): h => {
-          let key = lower(to-string(h).replace(" ", "-"))
-          chapter-heading-state.update(arr => (
-            arr
-              + (
-                (h, "/" + it.path.join("/") + ".html#" + key),
-              )
-          ))
-          if target() == "html" {
-            html.h2(id: key, h.body)
+        show heading.where(level: 1, outlined: true): head => {
+          if "label" in head.fields() {
+            chapter-heading-state.update(arr => arr + (head.label,))
+            head
           } else {
-            h.body
+            let key = lower(path-str + to-string(head).replace(" ", "-"))
+            [#heading(head.body) #label(key)]
           }
         }
         show title: title => {
-          chapter-title-state.update(it => title.body)
+          chapter-title-state.update(state => title.body)
           title
         }
         it.content
       }
       it.insert("title", chapter-title-state.final())
-      it.insert("headings", chapter-heading-state.final().dedup())
+      it.insert("headings", chapter-heading-state.final())
     }
     if "children" in it {
       it = (..it, children: normalize-tree(it.children, root))
@@ -105,15 +99,16 @@
   let normalized = normalize-tree(tree, root)
   // debug for testing the tree
   if debug { document(root.join("/") + "/__debug_tree.html", [#normalized]) }
-  if target() in ("bundle", "paged") {
-    paged-renderer(
-      normalized,
-      description: description,
-      authors: authors,
-      root: root,
-      language: language,
-      ..args,
-    )
+  if target() in ("paged",) {
+    panic("Paged export is suspended until https://github.com/typst/typst/pull/8250 is merged")
+    // paged-renderer(
+    //   normalized,
+    //   description: description,
+    //   authors: authors,
+    //   root: root,
+    //   language: language,
+    //   ..args,
+    // )
   }
   if target() in ("bundle",) {
     html-renderer(
