@@ -155,36 +155,67 @@
   elem
 }
 
-#let recursive-html-renderer(final-tree, current-tree, lang, stylesheet) = for it in current-tree {
-  if it.kind == "chapter" [
-    #let path-str = "/" + it.path.join("/") + ".html"
-    #document(
-      path-str,
-      html.html(lang: lang, {
-        import html: *
-        head({
-          meta(charset: "utf-8")
-          meta(name: "viewport", content: "width=device-width, initial-scale=1")
-          title(it.title)
-          // TODO: finish description here
-          meta(name: "description", content: "...")
-          stylesheet
-        })
-        internal-html-renderer(final-tree, it)
-      }),
-    ) #it.page-label
-  ]
+#let og-property(type, ..args) = html.elem("meta", attrs: (property: "og:" + type, ..args.named()))
+
+#let recursive-html-renderer(final-tree, current-tree, chapter-generator: none) = for it in current-tree {
+  if it.kind == "chapter" {
+    chapter-generator(it)
+  }
   recursive-html-renderer(
     final-tree,
     it.at("children", default: ()),
-    lang,
-    stylesheet,
+    chapter-generator: chapter-generator,
   )
 }
 
+#let summary-image-renderer(
+  site-title: "",
+  canonical-url: "",
+  chapter,
+  // defaults to 1pt -> 1px
+  width-px: 1200,
+  height-px: 630,
+  ppi: 144,
+) = {
+  let image-path = "/" + chapter.path.join("/") + "_summary.png"
+  (
+    document: document(
+      image-path,
+      page(
+        width: width-px / ppi * 1in,
+        height: height-px / ppi * 1in,
+        fill: gradient.linear(white, white, green.mix(navy), angle: 45deg).sharp(16).repeat(1),
+      )[
+        #set text(size: 24pt)
+        #text(site-title)\
+        #text(size: 2em, chapter.title)
 
-#let html-renderer(tree, lang: "en", root: (), ..args) = {
+        #place(bottom)[
+          Otter Docs is a pure Typst documentation framework.
+        ]
+      ],
+    ),
+    og-properties: {
+      og-property("image", content: canonical-url + image-path)
+      og-property("image:width", content: str(width-px))
+      og-property("image:height", content: str(height-px))
+      html.meta(name: "twitter:card", content: "summary_large_image")
+      html.meta(name: "twitter:image", content: canonical-url + image-path)
+    },
+  )
+}
+
+#let html-renderer(
+  tree,
+  lang: "en",
+  root: (),
+  title: "",
+  canonical-url: "",
+  render-summary-image: true,
+  ..args,
+) = {
   // first generate the tailwind preflight
+  let site-title = title
   import "@local/typhoon:0.1.2"
   let stylesheet-path = "/" + root.join("/") + "/styles.css"
   let page-classes = state("__new_hamber page classes", "")
@@ -198,18 +229,45 @@
   )
   // then generate html files
   show html.elem: update-elem.with(state: page-classes)
+  let summary-image-renderer = summary-image-renderer.with(
+    canonical-url: canonical-url,
+    site-title: site-title,
+  )
   recursive-html-renderer(
     tree,
     tree,
-    lang,
-    // to prevent too much bloat in html files
-    // and to reuse the classes
-    {
-      html.link(rel: "stylesheet", href: stylesheet-path)
-      html.style(
-        "@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');",
-      )
-    },
+    chapter-generator: it => [
+      #let page-path-str = "/" + it.path.join("/") + ".html"
+      #if render-summary-image { summary-image-renderer(it).document }
+      #document(page-path-str, html.html(lang: lang, {
+        import html: *
+        head({
+          // Chore
+          meta(charset: "utf-8")
+          meta(name: "viewport", content: "width=device-width, initial-scale=1")
+          title(it.title)
+          link(rel: "canonical", href: canonical-url + page-path-str)
+          // TODO: finish description here
+          meta(name: "description", content: "...")
+          // Styles
+          link(rel: "stylesheet", href: stylesheet-path)
+          style(
+            "@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');",
+          )
+          // Open Graph SEO
+          import "lib.typ": to-string
+          og-property("title", content: to-string("" + it.title))
+          og-property("description", content: to-string("" + [...]))
+          og-property("type", content: "website")
+          og-property("url", content: canonical-url + page-path-str)
+          og-property("site_name", content: site-title)
+          if render-summary-image {
+            summary-image-renderer(it).og-properties
+          }
+        })
+        internal-html-renderer(tree, it)
+      })) #it.page-label
+    ],
   )
 }
 

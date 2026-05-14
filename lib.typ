@@ -85,6 +85,8 @@
 #let book(
   title: "",
   description: "",
+  canonical-url: "",
+  render-summary-image: true,
   authors: (),
   root: (),
   language: "en",
@@ -113,7 +115,10 @@
   if target() in ("bundle",) {
     html-renderer(
       normalized,
+      title: title,
       description: description,
+      canonical-url: canonical-url,
+      render-summary-image: render-summary-image,
       authors: authors,
       root: root,
       language: language,
