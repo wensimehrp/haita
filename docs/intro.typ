@@ -8,15 +8,19 @@ Welcome to the documentation for Otter Docs #version.
 Writing documentation is a lame task. It is even more boring and frustrating when you have to setup toolchains and
 environments and debug for hours to make sure that they build correctly, only to find that the current tools cannot plot
 your diagrams, or the PDF generation is missing fonts and takes hours to build. So here's Otter Docs. A simple tool that
-has a single requirement: #link("https://github.com/typst/typst")[Typst].
+has a single requirement: #link("https://github.com/typst/typst")[Typst]. Here are some features:
 
-Typst is good at generating PDFs. It also has experimental support for HTML files. Since #link(
-  "https://github.com/typst/typst/pull/7964",
-)[\#7964] Typst can export multiple files for a single project, which makes it ideal for stuff like documentation sites.
+- Pure Typst workflow
+- Native MathML output, thanks to Typst
+- Static HTML generation
+- No client side JS by default
+- PDF and HTML generation from the same source
+- Semantic output, and
+- Minimal setup
 
-Otter Docs uses the bundle target. You can make a new project in Typst, set it to bundle export, and it would generate a
-site for you. It's only a typst template, and you don't need to worry about setting up the toolchain – Typst is the only
-tool required.
+You can make a new project in Typst using Otter Docs, set it to #link("https://github.com/typst/typst/pull/7964")[bundle
+  export], and Otter Docs would generate a site for you. You don't need to worry about setting up the toolchain – Typst
+is the only tool required.
 
 = An Unfinished Project
 
