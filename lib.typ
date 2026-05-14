@@ -80,7 +80,7 @@
   new-tree
 }
 
-#import "renderers.typ": html-renderer, paged-renderer
+#import "new-hamber.typ": html-renderer, paged-renderer
 
 #let book(
   title: "",
