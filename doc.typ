@@ -9,8 +9,16 @@
   root: "otter-docs",
   tree: (
     chapter("index", content: include "docs/intro.typ"),
-    chapter("docs/tutorial"),
-    chapter("docs/demo"),
-    chapter("changelog", content: title[Changelog] + cmarker.render(read("CHANGELOG.md"))),
+    chapter("tutorial", content: include "docs/tutorial.typ"),
+    chapter("references", content: include "docs/references.typ"),
+    chapter("demo", content: include "docs/demo.typ"),
+    chapter(
+      "changelog",
+      content: title[Changelog]
+        + cmarker.render(
+          label-prefix: "changelog-",
+          read("CHANGELOG.md"),
+        ),
+    ),
   ),
 )

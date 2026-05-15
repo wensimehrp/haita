@@ -113,3 +113,8 @@ target.
 ] else [
   You are currently looking at the PDF target.
 ]
+
+= Architecture
+
+The documentation system has two parts: the organizer, which is the #link(<otter-docs-book>)["book" function], and the
+renderer.
