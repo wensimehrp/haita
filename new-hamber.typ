@@ -197,6 +197,7 @@
     ),
     og-properties: {
       og-property("image", content: canonical-url + image-path)
+      og-property("image:type", content: "image/png")
       og-property("image:width", content: str(width-px))
       og-property("image:height", content: str(height-px))
       html.meta(name: "twitter:card", content: "summary_large_image")
@@ -264,6 +265,10 @@
           if render-summary-image {
             summary-image-renderer(it).og-properties
           }
+          // Twitter SEO
+          meta(name: "twitter:title", content: to-string("" + it.title))
+          meta(name: "twitter:domain", content: canonical-url.replace(regex("https?://"), ""))
+          meta(name: "twitter:description", content: "...")
         })
         internal-html-renderer(tree, it)
       })) #it.page-label
