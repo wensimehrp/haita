@@ -3,7 +3,7 @@
 #let summary-renderer(current-tree, current-chapter) = for it in current-tree {
   html.div(
     class: "w-full relative"
-      + if it.page-label == current-chapter.page-label {
+      + if "page-label" in it and it.page-label == current-chapter.page-label {
         " bg-white border-y border-neutral-300 "
       } else {
         " hover:bg-neutral-200 "
@@ -23,17 +23,17 @@
         )
       }
       if it.children.len() > 0 {
-        input(
+        html.input(
           class: "absolute peer top-2 right-2 h-4 w-4",
           type: "checkbox",
           checked: true,
         )
       }
     } else {
-      div(class: "p-2", it.content)
+      html.div(class: "p-2", it.content)
     }
       + if "children" in it and it.children.len() > 0 {
-        div(
+        html.div(
           class: "ml-3 border-neutral-300 border-l border-b col-start-2 col-span-2 hidden peer-checked:block",
           summary-renderer(it.children, current-chapter),
         )
@@ -218,7 +218,7 @@
   // first generate the tailwind preflight
   let site-title = title
   import "@preview/typhoon:0.1.2"
-  let stylesheet-path = "/" + root.join("/") + "/styles.css"
+  let stylesheet-path = "/" + (root, "styles.css").flatten().join("/")
   let page-classes = state("__new_hamber page classes", "")
   asset(
     stylesheet-path,
