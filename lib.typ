@@ -12,7 +12,7 @@
   /// -> auto | content
   content: auto,
   /// Subchapters
-  /// -> any | chatper
+  /// -> any | chapter
   children: (),
   /// Extra arguments passed to the renderer
   /// -> any
@@ -52,8 +52,8 @@
 }
 
 #let normalize-tree(tree, root) = {
-  let new-tree = ()
-  for it in tree {
+  assert(type(tree) == array, message: "The tree argument must be an array. Maybe you forgot a comma?")
+  tree.map(it => {
     if type(it) != dictionary or "kind" not in it {
       it = (
         kind: "other",
@@ -91,9 +91,8 @@
     if "children" in it {
       it = (..it, children: normalize-tree(it.children, root))
     }
-    new-tree.push(it)
-  }
-  new-tree
+    it
+  })
 }
 
 #import "new-hamber.typ": html-renderer, paged-renderer
@@ -120,7 +119,7 @@
   /// The authors of the documentation. It should be an array of strings.
   /// -> array
   authors: (),
-  /// The root of the site. Set this when you are not deploying the docuemtation
+  /// The root of the site. Set this when you are not deploying the documentation
   /// to the root of your website, instead you're deploying it to a subfolder.
   /// E.g., when deploying to GitHub Pages.
   /// -> str | array
