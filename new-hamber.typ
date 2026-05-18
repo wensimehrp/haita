@@ -56,12 +56,26 @@
   out
 }
 
+// Helper method for making O(1) lookups
+#let generate-dict(arr) = {
+  let dict = (:)
+  for (idx, it) in arr.enumerate() {
+    if "page-label" not in it {
+      continue
+    }
+    dict.insert(str(it.page-label), idx)
+  }
+  dict
+}
+
+
 #let footer-renderer(final-tree, current) = html.footer(
   class: "mt-8 grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-4",
   {
     // TODO: change this to dictionary based
     let flattened = flatten-tree(final-tree).filter(it => it.kind == "chapter")
-    let current-idx = flattened.position(it => it.page-label == current.page-label)
+    let indexed = generate-dict(flattened)
+    let current-idx = indexed.at(str(current.page-label))
     let link-classes = "[&>a]:no-underline border-1 border-neutral-300 hover:bg-neutral-100 hover:shadow-xs [&>a]:block [&>a]:w-full [&>a]:h-full [&>a]:p-4 "
     if current-idx == none {
       return
@@ -148,10 +162,11 @@
 
 #let update-elem(elem, state: none) = {
   let classes = elem.fields().attrs.at("class", default: ())
-  if type(classes) == array {
-    classes = classes.join(" ")
+  if type(classes) == str {
+    classes = classes.split(" ")
   }
-  state.update(it => it + " " + classes)
+  classes = classes.map(it => (it, none)).to-dict()
+  state.update(it => it + classes)
   elem
 }
 
@@ -219,10 +234,10 @@
   let site-title = title
   import "@preview/typhoon:0.1.2"
   let stylesheet-path = "/" + (root, "styles.css").flatten().join("/")
-  let page-classes = state("__new_hamber page classes", "")
+  let page-classes = state("__new_hamber page classes", (:))
   asset(
     stylesheet-path,
-    typhoon._plugin.generate(bytes(page-classes.final()), cbor.encode((
+    typhoon._plugin.generate(bytes(page-classes.final().keys().join(" ", default: "")), cbor.encode((
       preflight: (full: (font_family_sans: "Cabin")),
     )))
       + bytes("\n")
