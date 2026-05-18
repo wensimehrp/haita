@@ -26,8 +26,8 @@
           src = pkgs.fetchFromGitHub {
             owner = "typst";
             repo = "typst";
-            rev = "de6f400976f9bf6ab8b923d13a068722959d0070";
-            sha256 = "sha256-8MUfTHxrHolg60MC8dM8FlHACLA4tSGDjlyUhqdf1EY=";
+            rev = "64720d459129f4e5561c3bd0519bdfaef034b208";
+            sha256 = "sha256-sGPlHS64zuKtMp5XqjLGUgDcnCe5sA1oMeNRLHLK0BE=";
           };
 
           cargoLock.lockFile = src + "/Cargo.lock";
