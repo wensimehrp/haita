@@ -9,7 +9,10 @@
   root: "otter-docs",
   tree: (
     chapter("index", content: include "docs/intro.typ"),
+    [= User Guide],
+    chapter("installation", content: include "docs/installation.typ"),
     chapter("tutorial", content: include "docs/tutorial.typ"),
+    separator(),
     chapter("references", content: include "docs/references.typ"),
     chapter("demo", content: include "docs/demo.typ"),
     chapter(

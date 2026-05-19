@@ -2,6 +2,7 @@
 /// ```example
 /// #chapter("doc/lib.typ")
 /// ```
+/// -> chapter
 #let chapter(
   /// The path to the chapter. When `content` is left blank
   /// the function would automatically look into the current directory
@@ -14,6 +15,9 @@
   /// Subchapters
   /// -> any | chapter
   children: (),
+  /// Whether if this chapter is numbered
+  /// -> bool
+  numbered: true,
   /// Extra arguments passed to the renderer
   /// -> any
   ..args,
@@ -31,6 +35,10 @@
     ..args.named(),
   )
 }
+
+/// Creates a separator in the summary.
+/// -> summary-item
+#let separator() = (kind: "separator")
 
 // https://github.com/typst/typst/issues/2196#issuecomment-1728135476
 #let to-string(
@@ -95,7 +103,7 @@
   })
 }
 
-#import "new-hamber.typ": html-renderer, paged-renderer
+#import "new-hamber.typ"
 
 /// The entrypoint of the entire documentation.
 /// -> content
@@ -129,11 +137,11 @@
   language: "en",
   /// Which HTML renderer to use. By default it uses _New Hamber_'s html renderer.
   /// -> function
-  html-renderer: html-renderer,
+  html-renderer: new-hamber.html-renderer,
   /// Which paged (PDF, PNG, SVG) renderer to use. By default it uses
   /// _New Hamber_'s paged renderer.
   /// -> function
-  paged-renderer: paged-renderer,
+  paged-renderer: new-hamber.paged-renderer,
   /// Whether to enable the debug mode or not.
   /// -> bool
   debug: false,
