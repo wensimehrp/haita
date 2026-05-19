@@ -1,16 +1,25 @@
+# The name of your workflow. Always specify the name!
 name: Build Docs
 
+# Events that would trigger your workflow
 on:
+  # In this case we would like to build the documentation
+  # whenever new commits are pushed to the `main` branch
   push:
     branches: [main]
+  # Or, if you want to manually trigger the workflow,
+  # use `workflow_dispatch`
   workflow_dispatch:
 
+# necessary permissions required for deploying the document
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# What jobs would be involved in building the document
 jobs:
+  # Job 1: build the docs
   build-docs:
     runs-on: ubuntu-latest
     steps:
@@ -25,7 +34,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist/otter-docs
-
+  # Job 2: deploy the docs
   deploy:
     needs: build-docs
     runs-on: ubuntu-latest

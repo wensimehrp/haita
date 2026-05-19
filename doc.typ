@@ -20,7 +20,11 @@
     chapter("index", content: include "docs/intro.typ"),
     [= User Guide],
     chapter("installation", content: include "docs/installation.typ"),
-    chapter("tutorial", content: include "docs/tutorial.typ"),
+    chapter("tutorial", content: include "docs/tutorial.typ", children: (
+      chapter("integration", content: include "docs/integration.typ"),
+      chapter("custom-renderer", content: include "docs/custom-renderer.typ"),
+      chapter("continuous-integration", content: include "docs/ci.typ"),
+    )),
     separator(),
     chapter("references", content: include "docs/references.typ"),
     chapter("demo", content: include "docs/demo.typ", children: (
