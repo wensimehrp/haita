@@ -14,7 +14,9 @@
     chapter("tutorial", content: include "docs/tutorial.typ"),
     separator(),
     chapter("references", content: include "docs/references.typ"),
-    chapter("demo", content: include "docs/demo.typ"),
+    chapter("demo", content: include "docs/demo.typ", children: (
+      chapter("demo-code", content: include "docs/demo-code.typ"),
+    )),
     chapter(
       "changelog",
       content: title[Changelog]

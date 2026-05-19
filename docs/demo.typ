@@ -283,9 +283,3 @@ Numbered list:
 } else [
   Unfortunately Paged target doesn't support vertical layout yet.
 ]
-
-= Code
-
-The source code of this example:
-
-#raw(block: true, lang: "typ", read("./demo.typ"))

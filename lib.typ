@@ -31,6 +31,7 @@
     } else {
       content
     },
+    numbered: numbered,
     children: children,
     ..args.named(),
   )
