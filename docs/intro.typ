@@ -11,10 +11,15 @@ your diagrams, or the PDF generation is missing fonts and takes hours to build. 
 has a single requirement: #link("https://github.com/typst/typst")[Typst]. Here are some features:
 
 - Pure Typst workflow
-- Native MathML output, thanks to Typst
-- Static HTML generation
-- No client side JS by default
-- PDF and HTML generation from the same source
+- Features inherited from Typst:
+  - Simple yet expressive Typst syntax helping you focussing on your content
+  - Native syntax highlighting
+  - Native MathML output
+  - Fast compliation
+  - Native support for `watch` and `serve`
+  - PDF and HTML generation from the same source
+- No client side JS by default, including when using Math.
+- Good SEO
 - Semantic output, and
 - Minimal setup
 
@@ -27,8 +32,9 @@ is the only tool required.
 Otter Docs is a decent choice for organizing long, comprehensive documentation. But just like Typst, Otter Docs is an
 unfinished project, and is (currently) not a serious tool. Specifically, it's missing these features:
 
-- Search engine optimizations (SEO). Currently there are only a minimal amount of those optimizations;
 - HTML minification; useful for reducing the page size without losing content.
+- Internationalization support
+- Built-in search functions
 
 However, if you want pure Typst documentation, ease of use, and/or MathML formulae, you might want to give it a try. If
 you want stability and extremely easy syntax, then maybe you should consider mdBook. If you have any issues, please feel
