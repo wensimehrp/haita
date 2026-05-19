@@ -4,8 +4,8 @@
   html.div(
     class: "w-full relative"
       + if "page-label" in it and it.page-label == current-chapter.page-label {
-        " bg-white border-y border-neutral-300 "
-      } else {
+        " bg-white "
+      } else if it.kind == "chapter" {
         " hover:bg-neutral-200 "
       },
     if it.kind == "chapter" {
@@ -13,7 +13,7 @@
         class: "block w-full px-2 py-1".split(" ").map(it => "[&>a]:" + it).join(" "),
         std.link(it.page-label, it.title),
       )
-      if it.page-label == current-chapter.page-label {
+      if it.page-label == current-chapter.page-label and it.headings.len() > 0 {
         html.div(
           class: " mx-2 border-t border-neutral-300 "
             + "px-2 py-1 block hover:bg-neutral-200".split(" ").map(it => "[&>a]:" + it).join(" "),
@@ -29,8 +29,10 @@
           checked: true,
         )
       }
+    } else if it.kind == "separator" {
+      html.div(class: "w-full bg-neutral-300 h-[1px] my-3")
     } else {
-      html.div(class: "p-2", it.content)
+      html.div(class: "p-2 font-bold", it.content)
     }
       + if "children" in it and it.children.len() > 0 {
         html.div(
@@ -121,10 +123,10 @@
   nav(
     class: "w-72 z-10 flex fixed left-0 top-0 h-full -translate-x-full shadow-sm md:shadow-none peer-checked:translate-x-0 md:translate-x-0 flex-col border-r border-neutral-300 bg-neutral-100 transition-transform",
     {
-      img(
-        class: "max-h-40 mx-auto my-5",
-        src: "https://upload.wikimedia.org/wikipedia/commons/3/36/WLE_Austria_Logo_%28transparent%29.svg",
-      )
+      a(href: "https://en.wikipedia.org/wiki/File:Sea_Otter_(Enhydra_lutris)_(25169790524)_crop.jpg", img(
+        class: "w-full h-45 object-cover object-top",
+        src: "https://upload.wikimedia.org/wikipedia/commons/0/02/Sea_Otter_%28Enhydra_lutris%29_%2825169790524%29_crop.jpg",
+      ))
       div(
         class: "border-t border-neutral-300 overflow-x-auto",
         {
@@ -134,7 +136,7 @@
     },
   )
   article(
-    class: "p-3 sm:p-6 md:p-8 max-w-[52rem] md:ml-72 prose prose-neutral leading-normal prose-pre:bg-neutral-100 prose-pre:text-neutral-900 prose-pre:rounded-none font-[450]",
+    class: "p-3 sm:p-6 md:p-8 max-w-[52rem] md:ml-72 prose prose-neutral leading-normal prose-pre:bg-neutral-100 prose-pre:text-neutral-900 prose-pre:rounded-none",
     {
       it.content
       // footnote
