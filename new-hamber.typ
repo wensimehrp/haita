@@ -3,30 +3,20 @@
 #let summary-renderer(current-tree, current-chapter) = for it in current-tree {
   html.div(
     class: "w-full relative"
-      + if "page-label" in it and it.page-label == current-chapter.page-label {
-        " bg-white "
-      } else if it.kind == "chapter" {
-        " hover:bg-neutral-200 "
-      },
+      + if "page-label" in it and it.page-label == current-chapter.page-label { " border-y border-neutral-300 " },
     if it.kind == "chapter" {
       html.div(
-        class: "block w-full px-2 py-1".split(" ").map(it => "[&>a]:" + it).join(" "),
+        class: if it.page-label == current-chapter.page-label { "bg-white " }
+          + "block w-full px-2 py-1 hover:bg-neutral-200".split(" ").map(it => "[&>a]:" + it).join(" "),
         std.link(it.page-label, it.title),
       )
       if it.page-label == current-chapter.page-label and it.headings.len() > 0 {
         html.div(
-          class: " mx-2 border-t border-neutral-300 "
+          class: " border-t border-neutral-300 bg-white "
             + "px-2 py-1 block hover:bg-neutral-200".split(" ").map(it => "[&>a]:" + it).join(" "),
           for label in it.headings {
             std.link(label, query(label).at(0).body)
           },
-        )
-      }
-      if it.children.len() > 0 {
-        html.input(
-          class: "absolute peer top-2 right-2 h-4 w-4",
-          type: "checkbox",
-          checked: true,
         )
       }
     } else if it.kind == "separator" {
@@ -36,7 +26,7 @@
     }
       + if "children" in it and it.children.len() > 0 {
         html.div(
-          class: "ml-3 border-neutral-300 border-l border-b col-start-2 col-span-2 hidden peer-checked:block",
+          class: "ml-3 border-neutral-300 border-l col-start-2 col-span-2",
           summary-renderer(it.children, current-chapter),
         )
       },
