@@ -176,9 +176,10 @@
 }
 
 #let summary-image-renderer(
-  site-title: "",
-  canonical-url: "",
+  site-title,
+  canonical-url,
   chapter,
+  bottom-content: none,
   // defaults to 1pt -> 1px
   width-px: 1200,
   height-px: 630,
@@ -197,9 +198,7 @@
         #text(site-title)\
         #text(size: 2em, chapter.title)
 
-        #place(bottom)[
-          Otter Docs is a pure Typst documentation framework.
-        ]
+        #place(bottom, bottom-content)
       ],
     ),
     og-properties: {
@@ -219,7 +218,7 @@
   root: (),
   title: "",
   canonical-url: "",
-  render-summary-image: true,
+  summary-image-renderer: none,
   ..args,
 ) = {
   // first generate the tailwind preflight
@@ -237,16 +236,12 @@
   )
   // then generate html files
   show html.elem: update-elem.with(state: page-classes)
-  let summary-image-renderer = summary-image-renderer.with(
-    canonical-url: canonical-url,
-    site-title: site-title,
-  )
   recursive-html-renderer(
     tree,
     tree,
     chapter-generator: it => [
       #let page-path-str = "/" + it.path.join("/") + ".html"
-      #if render-summary-image { summary-image-renderer(it).document }
+      #if type(summary-image-renderer) == function { summary-image-renderer(it).document }
       #document(page-path-str, html.html(lang: lang, {
         import html: *
         head({
@@ -269,7 +264,7 @@
           og-property("type", content: "website")
           og-property("url", content: canonical-url + page-path-str)
           og-property("site_name", content: site-title)
-          if render-summary-image {
+          if type(summary-image-renderer) == function {
             summary-image-renderer(it).og-properties
           }
           // Twitter SEO

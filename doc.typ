@@ -7,6 +7,15 @@
   title: "Otter Docs Documentation",
   canonical-url: "https://wensimehrp.github.io",
   root: "otter-docs",
+  html-renderer: new-hamber.html-renderer.with(
+    summary-image-renderer: new-hamber.summary-image-renderer.with(
+      "Otter Docs",
+      "https://wensimehrp.github.io",
+      bottom-content: [
+        Otter Docs is a pure Typst documentation framework
+      ],
+    ),
+  ),
   tree: (
     chapter("index", content: include "docs/intro.typ"),
     [= User Guide],

@@ -138,7 +138,16 @@
   language: "en",
   /// Which HTML renderer to use. By default it uses _New Hamber_'s html renderer.
   /// -> function
-  html-renderer: new-hamber.html-renderer,
+  html-renderer: (..args) => new-hamber.html-renderer.with(
+    summary-image-renderer: if args.named().render-summary-image {
+      new-hamber.summary-image-renderer.with(
+        args.named().title,
+        args.named().canonical-url,
+      )
+    } else {
+      none
+    },
+  )(..args),
   /// Which paged (PDF, PNG, SVG) renderer to use. By default it uses
   /// _New Hamber_'s paged renderer.
   /// -> function
@@ -182,4 +191,60 @@
       ..args,
     )
   }
+}
+
+/// Minimal page summary renderer.
+/// Use it like this. Always use it with the `.with` syntax:
+/// ```typ
+/// #book(
+///   html-renderer: new-hamber.html-renderer.with(
+///     summary-image-renderer: lib.minimal-summary-image-renderer.with(
+///       <your-url-here>, // place your canonical url here. MANDATORY FIELD
+///       image-content: it => [...] // your content here
+///       // Don't complete any other fields
+///     )
+///   )
+/// )
+/// ```
+#let minimal-summary-image-renderer(
+  /// The canonical URL of your site. This is completed by the user
+  /// -> str
+  canonical-url,
+  /// The chapter that would be feeded into the renderer.
+  /// #highlight[Usually this is internal to the renderer, and should not be completed.]
+  /// -> chapter
+  chapter,
+  /// The width of the image in pixels. For the default PPI it is 1pt -> 1px.
+  /// -> int
+  width-px: 1200,
+  /// The height of the image in pixels. For the default PPI it is 1pt -> 1px.
+  /// -> int
+  height-px: 630,
+  /// The PPI of the image in pixels. If you change the PPI via the `--ppi` when
+  /// compiling you must also change this value.
+  /// -> int
+  ppi: 144,
+  /// The content of the summary image.
+  /// -> function
+  image-content: chapter => none,
+) = {
+  let image-path = "/" + chapter.path.join("/") + "_summary.png"
+  (
+    document: document(
+      image-path,
+      page(
+        width: width-px / ppi * 1in,
+        height: height-px / ppi * 1in,
+        image-content(chapter),
+      ),
+    ),
+    og-properties: {
+      html.elem("meta", attrs: (property: "og:image", content: canonical-url + image-path))
+      html.elem("meta", attrs: (property: "og:image:type", content: "image/png"))
+      html.elem("meta", attrs: (property: "og:image:width", content: str(width-px)))
+      html.elem("meta", attrs: (property: "og:image:height", content: str(height-px)))
+      html.meta(name: "twitter:card", content: "summary_large_image")
+      html.meta(name: "twitter:image", content: canonical-url + image-path)
+    },
+  )
 }
