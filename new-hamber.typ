@@ -232,7 +232,9 @@
       preflight: (full: (font_family_sans: "Cabin")),
     )))
       + bytes("\n")
-      + read("footnote.css", encoding: none),
+      + read("footnote.css", encoding: none)
+      + bytes("\n")
+      + read("math.css", encoding: none),
   )
   // then generate html files
   show html.elem: update-elem.with(state: page-classes)
@@ -255,7 +257,7 @@
           // Styles
           link(rel: "stylesheet", href: stylesheet-path)
           style(
-            "@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');",
+            "@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=STIX+Two+Math&display=swap');",
           )
           // Open Graph SEO
           import "lib.typ": to-string
