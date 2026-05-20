@@ -17,7 +17,13 @@ has a single requirement: #link("https://github.com/typst/typst")[Typst]. Here a
   - Native MathML output
   - Fast compliation
   - Native support for `watch` and `serve`
-  - PDF and HTML generation from the same source
+  - PDF and HTML generation from the same source #footnote[
+      PDF generation is currently suspended.
+    ]
+  - HTML minification #footnote[
+      HTML minification is currently internal to Typst. See #link("https://github.com/typst/typst/issues/5512") for
+      details.
+    ]
 - No client side JS by default, including when using Math.
 - Good SEO
 - Semantic output, and
@@ -32,7 +38,6 @@ is the only tool required.
 Otter Docs is a decent choice for organizing long, comprehensive documentation. But just like Typst, Otter Docs is an
 unfinished project, and is (currently) not a serious tool. Specifically, it's missing these features:
 
-- HTML minification; useful for reducing the page size without losing content.
 - Internationalization support
 - Built-in search functions
 
