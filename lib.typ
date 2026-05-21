@@ -168,7 +168,7 @@
   // debug for testing the tree
   if debug { document(root.join("/") + "/__debug_tree.html", [#normalized]) }
   if target() in ("paged",) {
-    panic("Paged export is suspended until https://github.com/typst/typst/pull/8250 is merged")
+    panic("Paged export is suspended until https://github.com/typst/typst/issues/7998 is resolved")
     // paged-renderer(
     //   normalized,
     //   description: description,
