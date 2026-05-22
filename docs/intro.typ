@@ -18,7 +18,7 @@ has a single requirement: #link("https://github.com/typst/typst")[Typst]. Here a
   - Fast compliation
   - Native support for `watch` and `serve`
   - PDF and HTML generation from the same source #footnote[
-      PDF generation is currently suspended.
+      PDF generation is currently suspended. See #link("https://github.com/typst/typst/issues/8309") for details.
     ]
   - HTML minification #footnote[
       HTML minification is currently internal to Typst. See #link("https://github.com/typst/typst/issues/5512") for
