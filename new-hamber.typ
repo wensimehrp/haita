@@ -61,7 +61,11 @@
 }
 
 
-#let footer-renderer(final-tree, current) = html.footer(
+#let footer-renderer(
+  final-tree,
+  current,
+  footer-content,
+) = html.footer(
   class: "mt-8 grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-4",
   {
     // TODO: change this to dictionary based
@@ -86,13 +90,11 @@
         link(info.page-label, info.title),
       )
     }
-    html.span(class: "md:col-span-2 text-xs text-center")[
-      Powered by #link("https://github.com/wensimehrp/otter-docs")[Otter Docs]. Made in Vancouver with love.
-    ]
+    html.span(class: "md:col-span-2 text-xs text-center", footer-content)
   },
 )
 
-#let internal-html-renderer(final-tree, it) = html.div({
+#let internal-html-renderer(final-tree, it, footer-content, sidebar-image) = html.div({
   import html: *
   let footnote-state = state(str(it.page-label) + " Footnote State", ())
   // discard auto generated footnote entries since we manually display them
@@ -113,10 +115,7 @@
   nav(
     class: "w-72 z-10 flex fixed left-0 top-0 h-full -translate-x-full shadow-sm md:shadow-none peer-checked:translate-x-0 md:translate-x-0 flex-col border-r border-neutral-300 bg-neutral-100 transition-transform",
     {
-      a(href: "https://en.wikipedia.org/wiki/File:Sea_Otter_(Enhydra_lutris)_(25169790524)_crop.jpg", img(
-        class: "w-full h-45 object-cover object-top",
-        src: "https://upload.wikimedia.org/wikipedia/commons/0/02/Sea_Otter_%28Enhydra_lutris%29_%2825169790524%29_crop.jpg",
-      ))
+      a(href: "https://en.wikipedia.org/wiki/File:Sea_Otter_(Enhydra_lutris)_(25169790524)_crop.jpg", sidebar-image)
       div(
         class: "border-t border-neutral-300 overflow-x-auto",
         {
@@ -147,7 +146,7 @@
         }))
       }
       // footer
-      footer-renderer(final-tree, it)
+      footer-renderer(final-tree, it, footer-content)
     },
   )
 })
@@ -219,6 +218,15 @@
   title: "",
   canonical-url: "",
   summary-image-renderer: none,
+  footer-content: [
+    Powered by #link("https://github.com/wensimehrp/otter-docs")[Otter Docs]. Made in Vancouver with love.
+  ],
+  extra-css: none,
+  extra-head-content: none,
+  sidebar-image: html.img(
+    class: "w-full h-45 object-cover object-top",
+    src: "https://upload.wikimedia.org/wikipedia/commons/0/02/Sea_Otter_%28Enhydra_lutris%29_%2825169790524%29_crop.jpg",
+  ),
   ..args,
 ) = {
   // first generate the tailwind preflight
@@ -234,7 +242,9 @@
       + bytes("\n")
       + read("footnote.css", encoding: none)
       + bytes("\n")
-      + read("math.css", encoding: none),
+      + read("math.css", encoding: none)
+      + bytes("\n")
+      + bytes(extra-css + ""),
   )
   // then generate html files
   show html.elem: update-elem.with(state: page-classes)
@@ -256,6 +266,7 @@
           meta(name: "description", content: "...")
           // Styles
           link(rel: "stylesheet", href: stylesheet-path)
+          extra-head-content
           style(
             "@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=STIX+Two+Math&display=swap');",
           )
@@ -274,7 +285,7 @@
           meta(name: "twitter:domain", content: canonical-url.replace(regex("https?://"), ""))
           meta(name: "twitter:description", content: "...")
         })
-        internal-html-renderer(tree, it)
+        internal-html-renderer(tree, it, footer-content, sidebar-image)
       })) #it.page-label
     ],
   )
