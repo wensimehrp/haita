@@ -94,7 +94,7 @@
   },
 )
 
-#let internal-html-renderer(final-tree, it, footer-content, sidebar-image) = html.div({
+#let internal-html-renderer(final-tree, it, footer-content, sidebar-image) = html.body({
   import html: *
   let footnote-state = state(str(it.page-label) + " Footnote State", ())
   // discard auto generated footnote entries since we manually display them
