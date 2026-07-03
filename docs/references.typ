@@ -7,15 +7,15 @@ References for functions in Otter Docs.
 
 #let get-type-html(ty) = {
   let c = (
-    "str": "bg-green-200",
-    "chapter": "bg-red-300",
-    "content": "bg-teal-200",
-    "auto": "bg-red-200",
-    "any": "bg-neutral-200",
-    "array": "bg-fuchsia-200",
-    "function": "bg-indigo-200",
-    "bool": "bg-orange-200",
-  ).at(ty, default: "bg-neutral-200")
+    "str": "bg-green-300/60",
+    "chapter": "bg-red-300/60",
+    "content": "bg-teal-300/60",
+    "auto": "bg-red-300/60",
+    "any": "bg-neutral-300/60",
+    "array": "bg-fuchsia-300/60",
+    "function": "bg-indigo-300/60",
+    "bool": "bg-orange-300/60",
+  ).at(ty, default: "bg-neutral-300/60")
   html.span(class: "py-[2px] px-[4px] mr-1 rounded-sm font-mono text-sm font-normal " + c, ty)
 }
 

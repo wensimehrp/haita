@@ -20,14 +20,13 @@ has a single requirement: #link("https://github.com/typst/typst")[Typst]. Here a
   - PDF and HTML generation from the same source #footnote[
       PDF generation is currently suspended. See #link("https://github.com/typst/typst/issues/8309") for details.
     ]
-  - HTML minification #footnote[
-      HTML minification is currently internal to Typst. See #link("https://github.com/typst/typst/issues/5512") for
-      details.
-    ]
+  - HTML minification.
 - No client side JS by default, including when using Math.
 - Good SEO
 - Semantic output, and
 - Minimal setup
+
+The default theme, _New Hamber_, also supports dark mode.
 
 You can make a new project in Typst using Otter Docs, set it to #link("https://github.com/typst/typst/pull/7964")[bundle
   export], and Otter Docs would generate a site for you. You don't need to worry about setting up the toolchain – Typst
