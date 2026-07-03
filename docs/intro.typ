@@ -1,7 +1,6 @@
 #title[Introduction]
 
 #let version = toml("../typst.toml").package.version
-#let typst-min-version-hash = read("../flake.nix").match(regex("rev\s*=\s*\"([^\"]+)")).captures.at(0)
 
 Welcome to the documentation for Otter Docs #version.
 
@@ -47,15 +46,7 @@ contribute, please #link("https://github.com/wensimehrp/otter-docs/pulls")[open 
 
 = Installation
 
-Because Otter Docs is a pure Typst framework, you do not need to install other tools. No Python, no shell scripts, only
-Typst. However, there are some caveats. Otter Docs is not currently available on the Typst Universe, and it requires a
-#link(
-  "https://github.com/typst/typst/commit/" + typst-min-version-hash,
-)[very specific version of Typst]. You would, unfortunately, have to build the compiler yourself. If you are a Nix user,
-you can use the `flake.nix` file in the repository to setup the environment.
-
-Once Typst 0.15 releases and Otter Docs makes its way to the Universe, the installation process should just be a simple
-one liner like ```typ #import "@preview/otter-docs:0.1.0": *```.
+You don't need to install anything! Just import the library then write docs!
 
 = Licensing
 

@@ -13,10 +13,7 @@ has a single requirement: [Typst](https://github.com/typst/typst). Here are some
   - PDF and HTML generation from the same source (
       PDF generation is currently suspended. See <https://github.com/typst/typst/issues/8309> for details.
     )
-  - HTML minification (
-      HTML minification is currently internal to Typst. See <https://github.com/typst/typst/issues/5512> for
-      details.
-    )
+  - HTML minification
 - No client side JS by default, including when using Math.
 - Good SEO
 - Semantic output, and
@@ -34,8 +31,7 @@ has a single requirement: [Typst](https://github.com/typst/typst). Here are some
 
 ```typst
 #!/usr/bin/env -S typst compile --features bundle,html --format bundle
-// You MUST clone the repository since Otter Docs is not available in the Typst universe
-#import "lib.typ": *
+#import "@preview/otter-docs:0.1.0": *
 // Optional markdown support
 #import "@preview/cmarker:0.1.8"
 
@@ -96,15 +92,7 @@ contribute, please [open a pull request](https://github.com/wensimehrp/otter-doc
 
 ## Installation
 
-Because Otter Docs is a pure Typst framework, you do not need to install other tools. No Python, no shell scripts, only
-Typst. However, there are some caveats. Otter Docs is not currently available on the Typst Universe, and it requires a
-very specific version of Typst. You would, unfortunately, have to use a development version of the compiler. The best
-way is to build the compiler yourself. If you are a Nix user, you can use the `flake.nix` file in the repository to
-set up the environment. If you don't want to build it yourself, you can also download the binary at
-<https://github.com/typst-community/dev-builds>
-
-Once Typst 0.15 releases and Otter Docs makes its way to the Universe, the installation process should just be a simple
-one liner like `#import "@preview/otter-docs:0.1.0": *`.
+You don't need to install anything! Just import the library then write docs!
 
 ## Licensing
 
