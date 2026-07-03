@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+typst watch --features bundle,html --format bundle ./doc.typ ./dist
