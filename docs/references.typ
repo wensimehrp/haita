@@ -1,9 +1,9 @@
 #title[References]
 #import "@preview/tidy:0.4.3"
 
-References for functions in Otter Docs.
+References for functions in Haita.
 
-#let docs = tidy.parse-module(read("../lib.typ"), name: "otter-docs")
+#let docs = tidy.parse-module(read("../lib.typ"), name: "haita")
 
 #let get-type-html(ty) = {
   let c = (

@@ -4,15 +4,15 @@
 
 #book(
   debug: true,
-  title: "Otter Docs Documentation",
+  title: "Haita Docs Documentation",
   canonical-url: "https://wensimehrp.github.io",
-  root: "otter-docs",
+  root: "haita",
   html-renderer: new-hamber.html-renderer.with(
     summary-image-renderer: new-hamber.summary-image-renderer.with(
-      "Otter Docs",
+      "Haita Docs",
       "https://wensimehrp.github.io",
       bottom-content: [
-        Otter Docs is a pure Typst documentation framework
+        Haita is a pure Typst documentation framework
       ],
     ),
   ),

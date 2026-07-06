@@ -1,6 +1,6 @@
-# Otter Docs
+# Haita
 
-Here's Otter Docs. A simple tool that
+Here's Haita Docs. A simple tool that
 has a single requirement: [Typst](https://github.com/typst/typst). Here are some features:
 
 - Pure Typst workflow
@@ -25,13 +25,13 @@ has a single requirement: [Typst](https://github.com/typst/typst). Here are some
 
 (See [doc.typ](./doc.typ) for a more comprehensive example)
 
-(See <https://github.com/wensimehrp/otter-docs> for an online demo)
+(See <https://github.com/wensimehrp/haita> for an online demo)
 
 `main.typ`:
 
 ```typst
 #!/usr/bin/env -S typst compile --features bundle,html --format bundle
-#import "@preview/otter-docs:0.1.0": *
+#import "@preview/haita:0.1.0": *
 // Optional markdown support
 #import "@preview/cmarker:0.1.8"
 
@@ -73,13 +73,13 @@ has a single requirement: [Typst](https://github.com/typst/typst). Here are some
 // and place your content afterwards
 ```
 
-You can make a new project in Typst using Otter Docs, set it to [bundle export](https://github.com/typst/typst/pull/7964),
-and Otter Docs would generate a site for you. You don't need to worry about setting up the toolchain – Typst
+You can make a new project in Typst using Haita, set it to [bundle export](https://github.com/typst/typst/pull/7964),
+and Haita would generate a site for you. You don't need to worry about setting up the toolchain – Typst
 is the only tool required.
 
 ## An Unfinished Project
 
-Otter Docs is a decent choice for organizing long, comprehensive documentation. But just like Typst, Otter Docs is an
+Haita is a decent choice for organizing long, comprehensive documentation. But just like Typst, Haita is an
 unfinished project, and is (currently) not a serious tool. Specifically, it's missing these features:
 
 - Internationalization support
@@ -87,8 +87,8 @@ unfinished project, and is (currently) not a serious tool. Specifically, it's mi
 
 However, if you want pure Typst documentation, ease of use, and/or MathML formulae, you might want to give it a try. If
 you want stability and extremely easy syntax, then maybe you should consider mdBook. If you have any issues, please feel
-free to [open a ticket on GitHub](https://github.com/wensimehrp/otter-docs/issues). If you would like to
-contribute, please [open a pull request](https://github.com/wensimehrp/otter-docs/pulls).
+free to [open a ticket on GitHub](https://github.com/wensimehrp/haita/issues). If you would like to
+contribute, please [open a pull request](https://github.com/wensimehrp/haita/pulls).
 
 ## Installation
 

@@ -1,7 +1,7 @@
 #title[Integrating Tools and Assets]
 
-Otter Docs doesn't have macros since Typst doesn't have macros. It is hard to achieve mdBook style preprocessors.
-However, there are a few ways you can integrate foreign tools and assets in your documentation.
+Haita doesn't have macros since Typst doesn't have macros. It is hard to achieve mdBook style preprocessors. However,
+there are a few ways you can integrate foreign tools and assets in your documentation.
 
 There are a couple of scenarios where you might want to integrate other tools and assets, for example, showing a copy of
 a file in the docs, displaying an interactive editor, or demonstrating the result of a program. Most of them are doable
@@ -31,8 +31,8 @@ Typst provides native syntax for reading files. Specifically, there are these fu
       "https://typst.app/docs/reference/text/raw/",
     )[```typ #raw(block: <boolean>, lang: <code-language>, <content>)```],
   )[
-    Display a string as code block. Use ```typc block: true``` for block-level code, and specify ```<code-language>```
-    in the lang field. (e.g. ```typc "C++"``` for C++, and ```typc "rust"``` for Rust.)
+    Display a string as code block. Use ```typc block: true``` for block-level code, and specify
+    ```typ <code-language>``` in the lang field. (e.g. ```typc "C++"``` for C++, and ```typc "rust"``` for Rust.)
   ],
   ..tr(
     link("https://typst.app/docs/reference/foundations/eval/")[```typ #eval(mode: <evaluation-mode>, <content>)```],
@@ -80,7 +80,7 @@ project's source code.
 ``````
 
 #context if target() == "html" [
-  JavaScript is used for interactivity. Although Otter Docs ships no client-side JS by default, you can still embed JS
+  JavaScript is used for interactivity. Although Haita ships no client-side JS by default, you can still embed JS
   yourself. The following is an example of how to embed an editor in the document:
 
   #to-eval

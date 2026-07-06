@@ -222,7 +222,7 @@
   canonical-url: "",
   summary-image-renderer: none,
   footer-content: [
-    Powered by #link("https://github.com/wensimehrp/otter-docs")[Otter Docs]. Made in Vancouver with love.
+    Powered by #link("https://github.com/wensimehrp/haita")[Haita]. Made in Vancouver with love.
   ],
   extra-css: none,
   extra-head-content: none,

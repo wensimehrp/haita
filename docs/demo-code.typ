@@ -20,7 +20,7 @@ pub fn echo(data: &[u8]) -> Result<Vec<u8>, String> {
 
 = C++
 
-```C++
+```cpp
 #include <iostream>
 
 int foo(int *a, int *b);

@@ -1,34 +1,32 @@
 #title[Tutorial]
 
-Otter Docs uses Typst. If you are not familiar with Typst, you can first take a look at #link(
+Haita uses Typst. If you are not familiar with Typst, you can first take a look at #link(
   "https://typst.app/docs/tutorial",
 )[Typst's official tutorial] for info on how to write Typst.
 
 = Authoring
 
 If you've used a tool like #link("https://myriad-dreamin.github.io/shiroa/")[Shiroa] or mdBook, you might be familiar
-with `book.typ` or `summary.md`. Both files contain metadata and instructions on how to organize the book. In Otter
-Docs, all of that is concentrated to a single entrypoint -- the `book` function:
+with `book.typ` or `summary.md`. Both files contain metadata and instructions on how to organize the book. In Haita, all
+of that is concentrated to a single entrypoint -- the `book` function:
 
 ```typ
 // Always remember to import the package
-// NOTICE: OTTER DOCS IS NOT PUBLISHED TO THE TYPST UNIVERSE YET
-// THIS LINE WOULD NOT WORK
-#import "@preview/otter-docs:0.1.0": *
+#import "@preview/haita:0.2.0": *
 
 #book(
   // The routing root. Useful when you are deploying to a folder
   // under your root (e.g. when deployed to GitHub Pages)
-  root: "otter-docs",
+  root: "haita",
   // Your document's contents
   tree: (
     // You can add arbitrary content. The content would be displayed
     // in the summary, but would not generate html pages.
     [= Introduction],
-    // This would create otter-docs/index.html. The content of the
+    // This would create haita/index.html. The content of the
     // chapter would be from `doc/intro.typ`
     chapter("index", content: include "doc/intro.typ"),
-    // This would create otter-docs/doc/tutorial.html. In this case,
+    // This would create haita/doc/tutorial.html. In this case,
     // the content of the chapter is not explicitly stated, so it
     // look into ./doc/tutorial.typ in the current workspace.
     chapter("doc/tutorial"),
@@ -127,7 +125,7 @@ completed once the web app adds support for the bundle target._
 
 = Architecture
 
-The documentation system has two parts: the organizer, which is the #link(<otter-docs-book>)[`book` function], and the
+The documentation system has two parts: the organizer, which is the #link(<haita-book>)[`book` function], and the
 renderer.
 
 The `book` function would organize the content into a tree, and that tree is then fed into the renderer. The renderer

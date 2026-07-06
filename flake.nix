@@ -1,5 +1,5 @@
 {
-  description = "Otter Docs development flake";
+  description = "Haita development flake";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";

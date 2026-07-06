@@ -2,12 +2,12 @@
 
 #let version = toml("../typst.toml").package.version
 
-Welcome to the documentation for Otter Docs #version.
+Welcome to the documentation for Haita #version (hǎi tǎ, Mandarin Pinyin, lit. Sea Otter).
 
 Writing documentation is a lame task. It is even more boring and frustrating when you have to setup toolchains and
 environments and debug for hours to make sure that they build correctly, only to find that the current tools cannot plot
-your diagrams, or the PDF generation is missing fonts and takes hours to build. So here's Otter Docs. A simple tool that
-has a single requirement: #link("https://github.com/typst/typst")[Typst]. Here are some features:
+your diagrams, or the PDF generation is missing fonts and takes hours to build. So here's Haita. A simple tool that has
+a single requirement: #link("https://github.com/typst/typst")[Typst]. Here are some features:
 
 - Pure Typst workflow
 - Features inherited from Typst:
@@ -27,22 +27,22 @@ has a single requirement: #link("https://github.com/typst/typst")[Typst]. Here a
 
 The default theme, _New Hamber_, also supports dark mode.
 
-You can make a new project in Typst using Otter Docs, set it to #link("https://github.com/typst/typst/pull/7964")[bundle
-  export], and Otter Docs would generate a site for you. You don't need to worry about setting up the toolchain – Typst
-is the only tool required.
+You can make a new project in Typst using Haita, set it to #link("https://github.com/typst/typst/pull/7964")[bundle
+  export], and Haita would generate a site for you. You don't need to worry about setting up the toolchain – Typst is
+the only tool required.
 
 = An Unfinished Project
 
-Otter Docs is a decent choice for organizing long, comprehensive documentation. But just like Typst, Otter Docs is an
-unfinished project, and is (currently) not a serious tool. Specifically, it's missing these features:
+Haita is a decent choice for organizing long, comprehensive documentation. But just like Typst, Haita is an unfinished
+project, and is (currently) not a serious tool. Specifically, it's missing these features:
 
 - Internationalization support
 - Built-in search functions
 
 However, if you want pure Typst documentation, ease of use, and/or MathML formulae, you might want to give it a try. If
 you want stability and extremely easy syntax, then maybe you should consider mdBook. If you have any issues, please feel
-free to #link("https://github.com/wensimehrp/otter-docs/issues")[open a ticket on GitHub]. If you would like to
-contribute, please #link("https://github.com/wensimehrp/otter-docs/pulls")[open a pull request].
+free to #link("https://github.com/wensimehrp/haita/issues")[open a ticket on GitHub]. If you would like to contribute,
+please #link("https://github.com/wensimehrp/haita/pulls")[open a pull request].
 
 = Installation
 
