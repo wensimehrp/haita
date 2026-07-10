@@ -121,19 +121,88 @@
     )
   })
 
-  input(class: "z-10 fixed peer md:hidden top-4 left-4 checked:translate-x-72 transition-transform", type: "checkbox")
-  nav(
-    class: "dark:text-white w-72 z-10 flex fixed left-0 top-0 h-full -translate-x-full shadow-sm md:shadow-none peer-checked:translate-x-0 md:translate-x-0 flex-col border-r border-neutral-300 dark:border-transparent bg-neutral-100 dark:bg-zinc-800 transition-transform",
-    {
-      sidebar-image
-      div(
-        class: "border-t border-neutral-300 dark:border-transparent overflow-x-auto",
-        {
-          summary-renderer(final-tree, it)
-        },
+  div(class: "group", {
+    div(class: "relative", {
+      input(
+        class: `
+        z-10 fixed
+        md:hidden
+        peer
+        left-0
+        top-0
+        appearance-none
+        top-1/2
+        w-8
+        h-20
+        -translate-y-1/2
+        checked:translate-y-0
+        checked:translate-x-72
+        checked:top-0
+        checked:w-full
+        checked:h-full
+    `
+          .text
+          .replace(regex("[\n\s]+"), " "),
+        type: "checkbox",
       )
-    },
-  )
+      div(class: `
+        flex items-center justify-center
+        z-5 fixed
+        top-1/2
+        w-8
+        h-20
+        border-r
+        border-t
+        border-b
+        border-neutral-300
+        bg-neutral-100
+        text-neutral-400
+        rounded-r-sm
+        shadow-sm
+        md:hidden
+        -translate-y-1/2
+        peer-checked:translate-x-72
+        transition-transform
+        text-3xl
+        `
+        .text
+        .replace(regex("[\n\s]+"), " "))[|||]
+    })
+    nav(
+      class: `
+      dark:text-white
+      w-72
+      z-10
+      flex
+      fixed
+      left-0
+      top-0
+      h-full
+      -translate-x-full
+      shadow-sm
+      md:shadow-none
+      group-has-[:checked]:translate-x-0
+      md:translate-x-0
+      flex-col
+      border-r
+      border-neutral-300
+      dark:border-transparent
+      bg-neutral-100
+      dark:bg-zinc-800
+      transition-transform`
+        .text
+        .replace(regex("[\n\s]+"), " "),
+      {
+        sidebar-image
+        div(
+          class: "border-t border-neutral-300 dark:border-transparent overflow-x-auto",
+          {
+            summary-renderer(final-tree, it)
+          },
+        )
+      },
+    )
+  })
   article(
     class: "p-3 sm:p-6 md:p-8 max-w-[52rem] md:ml-72 prose prose-neutral dark:prose-invert leading-normal prose-pre:rounded-none",
     {
