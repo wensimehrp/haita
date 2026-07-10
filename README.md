@@ -21,19 +21,19 @@ has a single requirement: [Typst](https://github.com/typst/typst). Here are some
 
 ## Example
 
-![](./demo.png)
+![Otter Docs with the default theme "New Hamber"](./demo.png)
 
 (See [doc.typ](./doc.typ) for a more comprehensive example)
 
-(See <https://github.com/wensimehrp/haita> for an online demo)
+(See <https://wensimehrp.github.io/haita> for an online demo)
 
 `main.typ`:
 
 ```typst
 #!/usr/bin/env -S typst compile --features bundle,html --format bundle
-#import "@preview/haita:0.1.0": *
+#import "@preview/haita:0.2.1": *
 // Optional markdown support
-#import "@preview/cmarker:0.1.8"
+#import "@preview/cmarker:0.1.10"
 
 #book(
   title: "My docs",

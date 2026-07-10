@@ -3,6 +3,10 @@
 This is the change log for [Haita](https://github.com/wensimehrp/haita),
 a pure Typst documentation framework.
 
+# 0.2.1
+
+- Improved the style of the handle for opening the navigation sidebar.
+
 # 0.2.0
 
 - Changed name from `otter-docs` to `haita`.
