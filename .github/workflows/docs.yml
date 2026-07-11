@@ -28,7 +28,7 @@ jobs:
       - uses: DeterminateSystems/magic-nix-cache-action@v13
 
       - name: Build docs
-        run: nix develop .#default --command typst c ./doc.typ --features bundle,html -f bundle ./dist
+        run: nix develop .#default --command ./dist.typ
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

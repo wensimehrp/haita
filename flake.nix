@@ -19,7 +19,12 @@
         pkgs = import nixpkgs { inherit system; };
       in
       {
-        devShells.default = pkgs.mkShell { packages = [ pkgs.typst ]; };
+        devShells.default = pkgs.mkShell {
+          packages = [
+            pkgs.typst
+            pkgs.pagefind
+          ];
+        };
       }
     );
 }

@@ -96,35 +96,43 @@
   },
 )
 
-#let internal-html-renderer(final-tree, it, footer-content, sidebar-image) = html.body(class: "dark:bg-zinc-900", {
-  import html: *
-  let footnote-state = state(str(it.page-label) + " Footnote State", ())
-  // discard auto generated footnote entries since we manually display them
-  show footnote: ftn => span(class: "footnote", {
-    let ftn-len = footnote-state.get().len()
-    let source-label = std.label(str(it.page-label) + "--source-label-" + str(ftn-len))
-    let target-label = std.label(str(it.page-label) + "--target-label-" + str(ftn-len))
-    footnote-state.update(state => (
-      state
-        + (
-          (
-            source-label: source-label,
-            target-label: target-label,
-            content: ftn.body,
-          ),
-        )
-    ))
-    [#std.super(std.link(target-label, str(ftn-len + 1))) #source-label]
-    span(
-      class: "footnote-popup",
-      ftn.body,
-    )
-  })
+#let internal-html-renderer(
+  final-tree,
+  it,
+  footer-content,
+  sidebar-image,
+  pagefind-enabled,
+) = html.body(
+  class: "dark:bg-zinc-900",
+  {
+    import html: *
+    let footnote-state = state(str(it.page-label) + " Footnote State", ())
+    // discard auto generated footnote entries since we manually display them
+    show footnote: ftn => span(class: "footnote", {
+      let ftn-len = footnote-state.get().len()
+      let source-label = std.label(str(it.page-label) + "--source-label-" + str(ftn-len))
+      let target-label = std.label(str(it.page-label) + "--target-label-" + str(ftn-len))
+      footnote-state.update(state => (
+        state
+          + (
+            (
+              source-label: source-label,
+              target-label: target-label,
+              content: ftn.body,
+            ),
+          )
+      ))
+      [#std.super(std.link(target-label, str(ftn-len + 1))) #source-label]
+      span(
+        class: "footnote-popup",
+        ftn.body,
+      )
+    })
 
-  div(class: "group", {
-    div(class: "relative", {
-      input(
-        class: `
+    div(class: "group", {
+      div(class: "relative", {
+        input(
+          class: `
         z-10 fixed
         md:hidden
         peer
@@ -141,11 +149,11 @@
         checked:w-full
         checked:h-full
     `
-          .text
-          .replace(regex("[\n\s]+"), " "),
-        type: "checkbox",
-      )
-      div(class: `
+            .text
+            .replace(regex("[\n\s]+"), " "),
+          type: "checkbox",
+        )
+        div(class: `
         flex items-center justify-center
         z-5 fixed
         top-1/2
@@ -157,6 +165,8 @@
         border-neutral-300
         bg-neutral-100
         text-neutral-400
+        dark:border-transparent
+        dark:bg-zinc-700
         rounded-r-sm
         shadow-sm
         md:hidden
@@ -165,11 +175,11 @@
         transition-transform
         text-3xl
         `
-        .text
-        .replace(regex("[\n\s]+"), " "))[|||]
-    })
-    nav(
-      class: `
+          .text
+          .replace(regex("[\n\s]+"), " "))[|||]
+      })
+      nav(
+        class: `
       dark:text-white
       w-72
       z-10
@@ -190,38 +200,43 @@
       bg-neutral-100
       dark:bg-zinc-800
       transition-transform`
-        .text
-        .replace(regex("[\n\s]+"), " "),
+          .text
+          .replace(regex("[\n\s]+"), " "),
+        {
+          sidebar-image
+          if pagefind-enabled {
+            elem("pagefind-modal-trigger")
+            elem("pagefind-modal")
+          }
+          div(
+            class: "border-t border-neutral-300 dark:border-transparent overflow-x-auto",
+            {
+              summary-renderer(final-tree, it)
+            },
+          )
+        },
+      )
+    })
+    article(
+      class: "p-3 sm:p-6 md:p-8 max-w-[52rem] md:ml-72 prose prose-neutral dark:prose-invert leading-normal prose-pre:rounded-none",
       {
-        sidebar-image
-        div(
-          class: "border-t border-neutral-300 dark:border-transparent overflow-x-auto",
-          {
-            summary-renderer(final-tree, it)
-          },
-        )
+        it.content
+        // footnote
+        let final = footnote-state.final()
+        if final.len() > 0 {
+          divider()
+          let items = final.map(it => enum.item[
+            #it.content #it.target-label
+            #span(class: "*:no-underline hover:underline ml-4", std.link(it.source-label)[↗])
+          ])
+          section(class: "text-sm text-neutral-500", std.enum(..items))
+        }
+        // footer
+        footer-renderer(final-tree, it, footer-content)
       },
     )
-  })
-  article(
-    class: "p-3 sm:p-6 md:p-8 max-w-[52rem] md:ml-72 prose prose-neutral dark:prose-invert leading-normal prose-pre:rounded-none",
-    {
-      it.content
-      // footnote
-      let final = footnote-state.final()
-      if final.len() > 0 {
-        divider()
-        let items = final.map(it => enum.item[
-          #it.content #it.target-label
-          #span(class: "*:no-underline hover:underline ml-4", std.link(it.source-label)[↗])
-        ])
-        section(class: "text-sm text-neutral-500", std.enum(..items))
-      }
-      // footer
-      footer-renderer(final-tree, it, footer-content)
-    },
-  )
-})
+  },
+)
 
 #let update-elem(elem, state: none) = {
   let classes = elem.fields().attrs.at("class", default: ())
@@ -302,6 +317,7 @@
       src: "https://upload.wikimedia.org/wikipedia/commons/0/02/Sea_Otter_%28Enhydra_lutris%29_%2825169790524%29_crop.jpg",
     ),
   ),
+  pagefind-enabled: false,
   ..args,
 ) = {
   // first generate the tailwind preflight
@@ -319,7 +335,10 @@
       + bytes("\n")
       + read("math.css", encoding: none)
       + bytes("\n")
-      + bytes(extra-css + ""),
+      + bytes(extra-css + "")
+      + if pagefind-enabled {
+        bytes("\n") + read("pagefind.css", encoding: none)
+      },
   )
   // then generate html files
   show html.elem: update-elem.with(state: page-classes)
@@ -359,8 +378,24 @@
           meta(name: "twitter:title", content: to-string("" + it.title))
           meta(name: "twitter:domain", content: canonical-url.replace(regex("https?://"), ""))
           meta(name: "twitter:description", content: "...")
+          if pagefind-enabled {
+            let link-path = "/" + (root + ("pagefind", "pagefind-component-ui.css")).join("/")
+            let script-path = "/" + (root + ("pagefind", "pagefind-component-ui.js")).join("/")
+            link(href: link-path, rel: "stylesheet")
+            script(src: script-path, type: "module")
+            elem("pagefind-config", attrs: (
+              bundle-path: "/" + (root + ("pagefind",)).join("/") + "/",
+              base-url: "/",
+            ))
+          }
         })
-        internal-html-renderer(tree, it, footer-content, sidebar-image)
+        internal-html-renderer(
+          tree,
+          it,
+          footer-content,
+          sidebar-image,
+          pagefind-enabled,
+        )
       })) #it.page-label
     ],
   )

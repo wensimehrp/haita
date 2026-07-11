@@ -1,6 +1,6 @@
-#!/usr/bin/env -S typst compile --features bundle,html --format bundle
+#!/usr/bin/env -S sh -c 'typst c --features bundle,html --format bundle $0; pagefind --site ./dist --output-subdir haita/pagefind'
 #import "lib.typ": *
-#import "@preview/cmarker:0.1.8"
+#import "@preview/cmarker:0.1.10"
 
 #book(
   debug: true,
@@ -8,6 +8,7 @@
   canonical-url: "https://wensimehrp.github.io",
   root: "haita",
   html-renderer: new-hamber.html-renderer.with(
+    pagefind-enabled: true,
     summary-image-renderer: new-hamber.summary-image-renderer.with(
       "Haita Docs",
       "https://wensimehrp.github.io",
