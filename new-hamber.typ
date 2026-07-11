@@ -4,7 +4,10 @@
   html.div(
     class: "w-full relative"
       + if "page-label" in it and it.page-label == current-chapter.page-label {
-        " border-y border-neutral-300 dark:border-transparent dark:bg-zinc-600 "
+        (
+          " border-neutral-300 dark:border-transparent dark:bg-zinc-600 "
+            + if it.headings.len() > 0 { " border-t " } else { " border-y " }
+        )
       },
     if it.kind == "chapter" {
       html.div(
