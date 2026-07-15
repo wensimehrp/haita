@@ -23,7 +23,7 @@ has a single requirement: [Typst](https://github.com/typst/typst). Here are some
 
 ![Otter Docs with the default theme "New Hamber"](./demo.png)
 
-(See [doc.typ](./doc.typ) for a more comprehensive example)
+(See [dist.typ](./dist.typ) for a more comprehensive example)
 
 (See <https://wensimehrp.github.io/haita> for an online demo)
 
