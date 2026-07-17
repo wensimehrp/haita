@@ -116,104 +116,101 @@
   footer-content,
   sidebar-image,
   pagefind-enabled,
-) = html.body(
-  class: "dark:bg-zinc-900",
-  {
-    import html: *
-    let footnote-state = state(str(it.page-label) + " Footnote State", ())
-    // discard auto generated footnote entries since we manually display them
-    show footnote: ftn => span(class: "footnote", {
-      let ftn-len = footnote-state.get().len()
-      let source-label = std.label(str(it.page-label) + "--source-label-" + str(ftn-len))
-      let target-label = std.label(str(it.page-label) + "--target-label-" + str(ftn-len))
-      footnote-state.update(state => (
-        state
-          + (
-            (
-              source-label: source-label,
-              target-label: target-label,
-              content: ftn.body,
-            ),
-          )
-      ))
-      [#std.super(std.link(target-label, str(ftn-len + 1))) #source-label]
-      span(
-        class: "footnote-popup",
-        ftn.body,
-      )
-    })
-
-    div(class: "group", {
-      div(class: "relative", {
-        input(
-          class: "z-10 fixed md:hidden"
-            + " peer appearance-none"
-            + " left-0 top-1/2 w-8 h-20"
-            + " -translate-y-1/2"
-            + " checked:translate-y-0 checked:translate-x-72 checked:top-0"
-            + " checked:w-full checked:h-full",
-          type: "checkbox",
+) = {
+  import html: *
+  let footnote-state = state(str(it.page-label) + " Footnote State", ())
+  // discard auto generated footnote entries since we manually display them
+  show footnote: ftn => span(class: "footnote", {
+    let ftn-len = footnote-state.get().len()
+    let source-label = std.label(str(it.page-label) + "--source-label-" + str(ftn-len))
+    let target-label = std.label(str(it.page-label) + "--target-label-" + str(ftn-len))
+    footnote-state.update(state => (
+      state
+        + (
+          (
+            source-label: source-label,
+            target-label: target-label,
+            content: ftn.body,
+          ),
         )
-        div(
-          class: "flex items-center justify-center"
-            + " z-5 fixed top-1/2 w-8 h-20"
-            + " border-r border-t border-b border-neutral-300"
-            + " bg-neutral-100 text-neutral-400"
-            + " dark:border-transparent dark:bg-zinc-700"
-            + " rounded-r-sm shadow-sm"
-            + " md:hidden -translate-y-1/2 peer-checked:translate-x-72"
-            + " transition-transform text-3xl",
-        )[|||]
-      })
-      nav(
-        class: "dark:text-white w-72 z-10 flex fixed left-0 top-0 h-full"
-          + " -translate-x-full shadow-sm md:shadow-none"
-          + " group-has-[:checked]:translate-x-0 md:translate-x-0 flex-col"
-          + " border-r border-neutral-300 dark:border-transparent bg-neutral-100"
-          + " dark:bg-zinc-800 transition-transform",
-        {
-          sidebar-image
-          if pagefind-enabled {
-            elem("pagefind-modal-trigger")
-            elem("pagefind-modal")
-          }
-          div(
-            class: "border-t border-neutral-300 dark:border-transparent overflow-x-auto",
-            {
-              summary-renderer(final-tree, it)
-            },
-          )
-        },
+    ))
+    [#std.super(std.link(target-label, str(ftn-len + 1))) #source-label]
+    span(
+      class: "footnote-popup",
+      ftn.body,
+    )
+  })
+
+  div(class: "group", {
+    div(class: "relative", {
+      input(
+        class: "z-10 fixed md:hidden"
+          + " peer appearance-none"
+          + " left-0 top-1/2 w-8 h-20"
+          + " -translate-y-1/2"
+          + " checked:translate-y-0 checked:translate-x-72 checked:top-0"
+          + " checked:w-full checked:h-full",
+        type: "checkbox",
       )
+      div(
+        class: "flex items-center justify-center"
+          + " z-5 fixed top-1/2 w-8 h-20"
+          + " border-r border-t border-b border-neutral-300"
+          + " bg-neutral-100 text-neutral-400"
+          + " dark:border-transparent dark:bg-zinc-700"
+          + " rounded-r-sm shadow-sm"
+          + " md:hidden -translate-y-1/2 peer-checked:translate-x-72"
+          + " transition-transform text-3xl",
+      )[|||]
     })
-    article(
-      class: "p-3 sm:p-6 md:p-8 max-w-4xl md:ml-72"
-        + " prose prose-neutral dark:prose-invert leading-normal"
-        + " prose-pre:bg-neutral-100 prose-pre:text-neutral-900"
-        + " prose-pre:border prose-pre:border-neutral-300"
-        + " dark:prose-pre:!bg-black dark:prose-pre:!text-neutral-100"
-        + " dark:prose-pre:!border-transparent"
-        + " prose-pre:rounded-none"
-        + " prose-a:decoration-1 prose-a:underline-offset-4"
-        + " prose-a:hover:decoration-3",
+    nav(
+      class: "dark:text-white w-72 z-10 flex fixed left-0 top-0 h-full"
+        + " -translate-x-full shadow-sm md:shadow-none"
+        + " group-has-[:checked]:translate-x-0 md:translate-x-0 flex-col"
+        + " border-r border-neutral-300 dark:border-transparent bg-neutral-100"
+        + " dark:bg-zinc-800 transition-transform",
       {
-        it.content
-        // footnote
-        let final = footnote-state.final()
-        if final.len() > 0 {
-          divider()
-          let items = final.map(it => enum.item[
-            #it.content #it.target-label
-            #span(class: "*:no-underline hover:underline ml-4", std.link(it.source-label)[↗])
-          ])
-          section(class: "text-sm text-neutral-500", std.enum(..items))
+        sidebar-image
+        if pagefind-enabled {
+          elem("pagefind-modal-trigger")
+          elem("pagefind-modal")
         }
-        // footer
-        footer-renderer(final-tree, it, footer-content)
+        div(
+          class: "border-t border-neutral-300 dark:border-transparent overflow-x-auto",
+          {
+            summary-renderer(final-tree, it)
+          },
+        )
       },
     )
-  },
-)
+  })
+  article(
+    class: "p-3 sm:p-6 md:p-8 max-w-4xl md:ml-72"
+      + " prose prose-neutral dark:prose-invert leading-normal"
+      + " prose-pre:bg-neutral-100 prose-pre:text-neutral-900"
+      + " prose-pre:border prose-pre:border-neutral-300"
+      + " dark:prose-pre:!bg-black dark:prose-pre:!text-neutral-100"
+      + " dark:prose-pre:!border-transparent"
+      + " prose-pre:rounded-none"
+      + " prose-a:decoration-1 prose-a:underline-offset-4"
+      + " prose-a:hover:decoration-3",
+    {
+      it.content
+      // footnote
+      let final = footnote-state.final()
+      if final.len() > 0 {
+        divider()
+        let items = final.map(it => enum.item[
+          #it.content #it.target-label
+          #span(class: "*:no-underline hover:underline ml-4", std.link(it.source-label)[↗])
+        ])
+        section(class: "text-sm text-neutral-500", std.enum(..items))
+      }
+      // footer
+      footer-renderer(final-tree, it, footer-content)
+    },
+  )
+}
 
 #let update-elem(elem, state: none) = {
   let classes = elem.fields().attrs.at("class", default: ())
@@ -370,13 +367,13 @@
             ))
           }
         })
-        internal-html-renderer(
+        body(class: "dark:bg-zinc-900", internal-html-renderer(
           tree,
           it,
           footer-content,
           sidebar-image,
           pagefind-enabled,
-        )
+        ))
       })) #it.page-label
     ],
   )
