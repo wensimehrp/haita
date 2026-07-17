@@ -210,8 +210,8 @@
 
   div(class: "grid lg:grid-cols-[1fr_14rem] md:ml-72 max-w-[64rem]", {
     main-content
-    // in page toc
-    nav(class: "hidden lg:block right-0 top-0 h-fit sticky pt-5 dark:text-white", {
+    // on page toc
+    nav(class: "hidden lg:block right-0 top-0 h-fit sticky pt-5 dark:text-white leading-tight", {
       h2(class: "font-bold")[On this page]
       ul(
         class: {
