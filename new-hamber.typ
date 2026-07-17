@@ -1,5 +1,16 @@
 // Default theme "New Hamber"
 
+#let realize(label, fn) = {
+  let c = state("__realize-label+a-bunch-of-entropy", none)
+  {
+    show html.elem.where(tag: "a"): elem => c.update(href => elem.attrs.href)
+    link(label)[]
+  }
+  context {
+    fn(c.get())
+  }
+}
+
 #let summary-renderer(current-tree, current-chapter) = for it in current-tree {
   html.div(
     class: "w-full relative"
@@ -135,76 +146,31 @@
     div(class: "group", {
       div(class: "relative", {
         input(
-          class: `
-        z-10 fixed
-        md:hidden
-        peer
-        left-0
-        top-0
-        appearance-none
-        top-1/2
-        w-8
-        h-20
-        -translate-y-1/2
-        checked:translate-y-0
-        checked:translate-x-72
-        checked:top-0
-        checked:w-full
-        checked:h-full
-    `
-            .text
-            .replace(regex("[\n\s]+"), " "),
+          class: "z-10 fixed md:hidden"
+            + " peer appearance-none"
+            + " left-0 top-1/2 w-8 h-20"
+            + " -translate-y-1/2"
+            + " checked:translate-y-0 checked:translate-x-72 checked:top-0"
+            + " checked:w-full checked:h-full",
           type: "checkbox",
         )
-        div(class: `
-        flex items-center justify-center
-        z-5 fixed
-        top-1/2
-        w-8
-        h-20
-        border-r
-        border-t
-        border-b
-        border-neutral-300
-        bg-neutral-100
-        text-neutral-400
-        dark:border-transparent
-        dark:bg-zinc-700
-        rounded-r-sm
-        shadow-sm
-        md:hidden
-        -translate-y-1/2
-        peer-checked:translate-x-72
-        transition-transform
-        text-3xl
-        `
-          .text
-          .replace(regex("[\n\s]+"), " "))[|||]
+        div(
+          class: "flex items-center justify-center"
+            + " z-5 fixed top-1/2 w-8 h-20"
+            + " border-r border-t border-b border-neutral-300"
+            + " bg-neutral-100 text-neutral-400"
+            + " dark:border-transparent dark:bg-zinc-700"
+            + " rounded-r-sm shadow-sm"
+            + " md:hidden -translate-y-1/2 peer-checked:translate-x-72"
+            + " transition-transform text-3xl",
+        )[|||]
       })
       nav(
-        class: `
-      dark:text-white
-      w-72
-      z-10
-      flex
-      fixed
-      left-0
-      top-0
-      h-full
-      -translate-x-full
-      shadow-sm
-      md:shadow-none
-      group-has-[:checked]:translate-x-0
-      md:translate-x-0
-      flex-col
-      border-r
-      border-neutral-300
-      dark:border-transparent
-      bg-neutral-100
-      dark:bg-zinc-800
-      transition-transform`
-          .text
-          .replace(regex("[\n\s]+"), " "),
+        class: "dark:text-white w-72 z-10 flex fixed left-0 top-0 h-full"
+          + " -translate-x-full shadow-sm md:shadow-none"
+          + " group-has-[:checked]:translate-x-0 md:translate-x-0 flex-col"
+          + " border-r border-neutral-300 dark:border-transparent bg-neutral-100"
+          + " dark:bg-zinc-800 transition-transform",
         {
           sidebar-image
           if pagefind-enabled {
@@ -221,7 +187,15 @@
       )
     })
     article(
-      class: "p-3 sm:p-6 md:p-8 max-w-[52rem] md:ml-72 prose prose-neutral dark:prose-invert leading-normal prose-pre:rounded-none",
+      class: "p-3 sm:p-6 md:p-8 max-w-4xl md:ml-72"
+        + " prose prose-neutral dark:prose-invert leading-normal"
+        + " prose-pre:bg-neutral-100 prose-pre:text-neutral-900"
+        + " prose-pre:border prose-pre:border-neutral-300"
+        + " dark:prose-pre:!bg-black dark:prose-pre:!text-neutral-100"
+        + " dark:prose-pre:!border-transparent"
+        + " prose-pre:rounded-none"
+        + " prose-a:decoration-1 prose-a:underline-offset-4"
+        + " prose-a:hover:decoration-3",
       {
         it.content
         // footnote
@@ -328,21 +302,28 @@
   import "@preview/typhoon:0.1.2"
   let stylesheet-path = "/" + (root, "styles.css").flatten().join("/")
   let page-classes = state("__new_hamber page classes", (:))
-  asset(
-    stylesheet-path,
-    typhoon._plugin.generate(bytes(page-classes.final().keys().join(" ", default: "")), cbor.encode((
-      preflight: (full: (font_family_sans: "Cabin")),
-    )))
-      + bytes("\n")
-      + read("footnote.css", encoding: none)
-      + bytes("\n")
-      + read("math.css", encoding: none)
-      + bytes("\n")
-      + bytes(extra-css + "")
-      + if pagefind-enabled {
-        bytes("\n") + read("pagefind.css", encoding: none)
+  [
+    #asset(
+      stylesheet-path,
+      {
+        read("styles.css")
+        str(typhoon._plugin.generate(bytes(page-classes.final().keys().join(" ", default: "")), cbor.encode((
+          preflight: (
+            full: (
+              font_family_sans: "Lato",
+              font_family_mono: "Roboto Mono",
+            ),
+          ),
+        ))))
+        read("footnote.css")
+        read("math.css")
+        extra-css
+        if pagefind-enabled {
+          read("pagefind.css")
+        }
       },
-  )
+    ) <styles>
+  ]
   // then generate html files
   show html.elem: update-elem.with(state: page-classes)
   recursive-html-renderer(
@@ -362,11 +343,8 @@
           // TODO: finish description here
           meta(name: "description", content: "...")
           // Styles
-          link(rel: "stylesheet", href: stylesheet-path)
+          realize(<styles>, href => link(rel: "stylesheet", href: href))
           extra-head-content
-          style(
-            "@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=STIX+Two+Math&display=swap');",
-          )
           // Open Graph SEO
           import "lib.typ": to-string
           og-property("title", content: to-string("" + it.title))
@@ -405,6 +383,8 @@
 }
 
 
-#let paged-renderer(tree, root: (), ..args) = [#document(root.join("/") + "/doc.pdf", for it in flatten-tree(tree) {
-  it.content
-}) <doc.pdf>]
+#let paged-renderer(tree, root: (), ..args) = [
+  #document(root.join("/") + "/doc.pdf", for it in flatten-tree(tree) {
+    it.content
+  }) <doc.pdf>
+]
