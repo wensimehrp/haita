@@ -6,15 +6,15 @@ Haita uses Typst. If you are not familiar with Typst, you can first take a look 
 
 = Authoring
 
-If you've used a tool like #link("https://myriad-dreamin.github.io/shiroa/")[Shiroa] or mdBook, you might be familiar
-with `book.typ` or `summary.md`. Both files contain metadata and instructions on how to organize the book. In Haita, all
-of that is concentrated to a single entrypoint -- the `book` function:
+If you've used a tool like #link("https://myriad-dreamin.github.io/shiroa/")[Shiroa] or #link(
+  "https://rust-lang.github.io/mdBook/",
+)[mdBook], you might be familiar with `book.typ` or `summary.md`. Both files contain metadata and instructions on how to
+organize the book. In Haita, all of that is concentrated to a single entrypoint -- the `book` function. To get started,
+create a file named `dist.typ` that contains the following:
 
 #let sample = (
   ```typ
-  // Always remember to import the package
-  #import "@preview/haita:__PACKAGE_VERSION__": *
-
+  #import "@preview/haita:__PACKAGE_VERSION__": * // Always remember to import the package
   #book(
     // The routing root. Useful when you are deploying to a folder
     // under your root (e.g. when deployed to GitHub Pages)
@@ -49,6 +49,8 @@ of that is concentrated to a single entrypoint -- the `book` function:
     .text
     .replace("__PACKAGE_VERSION__", toml("../typst.toml").package.version)
 )
+
+#raw(block: true, lang: "typ", sample.replace(regex("\s*\/\/.*"), ""))
 
 #raw(block: true, lang: "typ", sample)
 

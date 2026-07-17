@@ -1,3 +1,8 @@
 #title[Installation]
 
-_This part would be finished once Typst 0.15.0 is out and Haita is available on the Typst universe._
+Installing Haita's dependencies is incredibly simple! You only need the Typst compiler. Typst will automatically fetch
+the required packages when compiling the documents.
+
+= Installing Typst
+
+You can install Typst at #link("https://typst.app/open-source/#download").
