@@ -29,6 +29,7 @@
     offset-chapter("installation"),
     offset-chapter("tutorial", children: (
       offset-chapter("tutorial/authoring"),
+      offset-chapter("tutorial/using-typst-packages"),
       offset-chapter("tutorial/integration"),
       offset-chapter("tutorial/custom-renderer"),
       offset-chapter("tutorial/continuous-integration"),
