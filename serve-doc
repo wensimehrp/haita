@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-typst watch --features bundle,html --format bundle ./dist.typ ./dist
+typst watch --features bundle,html --format bundle ./dist.typ ./dist --pretty
