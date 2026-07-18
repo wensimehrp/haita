@@ -359,7 +359,7 @@
     #asset(
       stylesheet-path,
       {
-        read("styles.css")
+        read("styles/styles.css")
         str(typhoon._plugin.generate(bytes(page-classes.final().keys().join(" ", default: "")), cbor.encode((
           preflight: (
             full: (
@@ -368,11 +368,11 @@
             ),
           ),
         ))))
-        read("footnote.css")
-        read("math.css")
+        read("styles/footnote.css")
+        read("styles/math.css")
         extra-css
         if pagefind-enabled {
-          read("pagefind.css")
+          read("styles/pagefind.css")
         }
       },
     ) <styles>
