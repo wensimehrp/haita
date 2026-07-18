@@ -44,10 +44,6 @@ you want stability and extremely easy syntax, then maybe you should consider mdB
 free to #link("https://github.com/wensimehrp/haita/issues")[open a ticket on GitHub]. If you would like to contribute,
 please #link("https://github.com/wensimehrp/haita/pulls")[open a pull request].
 
-= Installation
-
-You don't need to install anything! Just import the library then write docs!
-
 = Licensing
 
 The source and the documentation are available under #link("https://www.apache.org/licenses/LICENSE-2.0")[Apache License

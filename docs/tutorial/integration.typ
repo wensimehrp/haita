@@ -7,11 +7,6 @@ There are a couple of scenarios where you might want to integrate other tools an
 a file in the docs, displaying an interactive editor, or demonstrating the result of a program. Most of them are doable
 with Typst's capabilities, and some require specific workarounds.
 
-= Integrating Pagefind
-
-#link("https://pagefind.app/")[Pagefind] is a popular, fully static search library that is extremely convenient to use.
-It works with any static HTML output, hence it works with Haita. It adds a bit of JavaScript overhead.
-
 = Reading and Processing Files
 
 Typst provides native syntax for reading files. Specifically, there are these functions and keywords:
@@ -61,6 +56,11 @@ Typst provides native syntax for reading files. Specifically, there are these fu
 A few examples include ```typ #table(columns: 3, ..csv("my_file.csv").flatten())``` for reading records and displaying
 them and ```typ #raw(block: true, lang: "rust", read("my_file.rs"))``` for reading content from a Rust file in your
 project's source code.
+
+= Integrating Pagefind
+
+#link("https://pagefind.app/")[Pagefind] is a popular, fully static search library that is extremely convenient to use.
+It works with any static HTML output, hence it works with Haita. It adds a bit of JavaScript overhead.
 
 = Embedding JavaScript
 

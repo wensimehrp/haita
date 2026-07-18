@@ -7,4 +7,4 @@ deploying your book.
 
 Use the following CI file:
 
-#raw(lang: "yaml", read("../.github/workflows/docs.yml"), block: true)
+#raw(lang: "yaml", read("../../.github/workflows/docs.yml"), block: true)

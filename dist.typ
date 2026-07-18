@@ -2,7 +2,14 @@
 #import "lib.typ": *
 #import "@preview/cmarker:0.1.10"
 
+#let offset-chapter(path, ..args) = chapter(
+  path,
+  content: include "docs/" + path + ".typ",
+  ..args,
+)
+
 #book(
+  debug: true,
   title: "Haita Docs Documentation",
   canonical-url: "https://wensimehrp.github.io",
   root: "haita",
@@ -19,16 +26,17 @@
   tree: (
     chapter("index", content: include "docs/intro.typ"),
     [= User Guide],
-    chapter("installation", content: include "docs/installation.typ"),
-    chapter("tutorial", content: include "docs/tutorial.typ", children: (
-      chapter("integration", content: include "docs/integration.typ"),
-      chapter("custom-renderer", content: include "docs/custom-renderer.typ"),
-      chapter("continuous-integration", content: include "docs/ci.typ"),
+    offset-chapter("installation"),
+    offset-chapter("tutorial", children: (
+      offset-chapter("tutorial/authoring"),
+      offset-chapter("tutorial/integration"),
+      offset-chapter("tutorial/custom-renderer"),
+      offset-chapter("tutorial/continuous-integration"),
     )),
     divider(),
-    chapter("references", content: include "docs/references.typ"),
-    chapter("demo", content: include "docs/demo.typ", children: (
-      chapter("demo-code", content: include "docs/demo-code.typ"),
+    offset-chapter("references"),
+    offset-chapter("demo", children: (
+      offset-chapter("demo-code"),
     )),
     chapter(
       "changelog",
