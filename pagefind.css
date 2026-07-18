@@ -30,7 +30,7 @@
 
     /* Typography */
     --pf-font:
-        Cabin, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+        Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
         Arial, sans-serif !important;
 
     /* Sizing */
@@ -95,13 +95,24 @@
 button.pf-trigger-btn {
     border-radius: 0px !important;
     border-color: transparent !important;
+    height: 100% !important;
 }
 
 button.pf-trigger-btn:hover {
     border-color: var(--pf-border-focus) !important;
 }
 
+.pf-modal-header,
+.pf-result-card,
 .pf-trigger-key,
-.pf-keyboard-key {
+.pf-heading-chip,
+.pf-keyboard-key,
+.pf-modal,
+.pf-input {
     border-radius: 0px !important;
+}
+
+.pf-trigger-text,
+.pf-input-clear {
+    font-family: Lato !important;
 }

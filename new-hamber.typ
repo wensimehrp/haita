@@ -190,7 +190,7 @@
       {
         sidebar-image
         if pagefind-enabled {
-          elem("pagefind-modal-trigger")
+          elem("pagefind-modal-trigger", attrs: (class: "bg-white dark:bg-black h-9"))
           elem("pagefind-modal")
         }
         div(
@@ -220,19 +220,24 @@
     )
   })
 
-  let main-content = article(
-    id: "haita-main-content",
-    class: {
-      "p-3 sm:p-6 md:p-8 min-w-full"
-      " prose prose-neutral dark:prose-invert leading-normal"
-      " prose-pre:bg-neutral-100 prose-pre:text-neutral-900"
-      " prose-pre:border prose-pre:border-neutral-300"
-      " dark:prose-pre:!bg-black dark:prose-pre:!text-neutral-100"
-      " dark:prose-pre:!border-transparent"
-      " prose-pre:rounded-none"
-      " prose-a:decoration-1 prose-a:underline-offset-4"
-      " prose-a:hover:decoration-3"
-    },
+  // only let pagefind index the article
+  let main-content = elem(
+    "article",
+    attrs: (
+      id: "haita-main-content",
+      class: {
+        "p-3 sm:p-6 md:p-8 min-w-full"
+        " prose prose-neutral dark:prose-invert leading-normal"
+        " prose-pre:bg-neutral-100 prose-pre:text-neutral-900"
+        " prose-pre:border prose-pre:border-neutral-300"
+        " dark:prose-pre:!bg-black dark:prose-pre:!text-neutral-100"
+        " dark:prose-pre:!border-transparent"
+        " prose-pre:rounded-none"
+        " prose-a:decoration-1 prose-a:underline-offset-4"
+        " prose-a:hover:decoration-3"
+      },
+      data-pagefind-body: "",
+    ),
     {
       it.content
       // footnote
