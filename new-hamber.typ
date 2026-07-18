@@ -44,10 +44,14 @@
       if is-current-page {
         html.a(href: "#haita-main-content", class: a11y-skip-classes)[Skip to main content]
       }
-    } else if it.kind == "separator" {
-      html.div(class: "w-full bg-neutral-300 dark:bg-zinc-600 h-[1px] my-3")
     } else {
-      html.div(class: "p-2 font-bold", it.content)
+      if it.content.func() == divider {
+        html.hr(class: "my-3 border-neutral-300 dark:border-zinc-600")
+      } else if it.content.func() == heading {
+        html.h2(class: "font-bold p-2", it.content.body)
+      } else {
+        html.div(class: "p-2 prose prose-sm dark:prose-invert", it.content)
+      }
     }
       + if "children" in it and it.children.len() > 0 {
         html.div(

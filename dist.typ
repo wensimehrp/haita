@@ -25,7 +25,7 @@
       chapter("custom-renderer", content: include "docs/custom-renderer.typ"),
       chapter("continuous-integration", content: include "docs/ci.typ"),
     )),
-    separator(),
+    divider(),
     chapter("references", content: include "docs/references.typ"),
     chapter("demo", content: include "docs/demo.typ", children: (
       chapter("demo-code", content: include "docs/demo-code.typ"),

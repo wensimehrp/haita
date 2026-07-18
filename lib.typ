@@ -37,10 +37,6 @@
   )
 }
 
-/// Creates a separator in the summary.
-/// -> summary-item
-#let separator() = (kind: "separator")
-
 // https://github.com/typst/typst/issues/2196#issuecomment-1728135476
 #let to-string(
   it,
