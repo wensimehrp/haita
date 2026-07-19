@@ -191,7 +191,7 @@
         sidebar-image
         if pagefind-enabled {
           elem("pagefind-modal-trigger", attrs: (class: "flex shrink-0 bg-white dark:bg-black h-9"), noscript(
-            class: "m-auto text-sm",
+            class: "m-auto text-sm text-black dark:text-white",
           )[
             Enable JS for search support
           ])
