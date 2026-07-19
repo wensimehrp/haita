@@ -387,7 +387,9 @@
   // first generate the tailwind preflight
   let site-title = title
   import "@preview/typhoon:0.1.2"
+  import "fonts/fonts.typ": font-css, font-files
   let stylesheet-path = "/" + (root, "styles.css").flatten().join("/")
+  font-files(root.join("/")).join()
   [
     #asset(
       stylesheet-path,
@@ -408,6 +410,7 @@
         if pagefind-enabled {
           read("styles/pagefind.css")
         }
+        font-css
       },
     ) <styles>
   ]
