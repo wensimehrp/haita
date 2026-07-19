@@ -190,7 +190,11 @@
       {
         sidebar-image
         if pagefind-enabled {
-          elem("pagefind-modal-trigger", attrs: (class: "block shrink-0 bg-white dark:bg-black h-9"))
+          elem("pagefind-modal-trigger", attrs: (class: "flex shrink-0 bg-white dark:bg-black h-9"), noscript(
+            class: "m-auto text-sm",
+          )[
+            Enable JS for search support
+          ])
           elem("pagefind-modal")
         }
         div(
@@ -417,19 +421,23 @@
             let script-path = "/" + (root + ("pagefind", "pagefind-component-ui.js")).join("/")
             link(href: link-path, rel: "stylesheet")
             script(src: script-path, type: "module")
+          }
+        })
+        body(class: "dark:bg-zinc-900", {
+          if pagefind-enabled {
             elem("pagefind-config", attrs: (
               bundle-path: "/" + (root + ("pagefind",)).join("/") + "/",
               base-url: "/",
             ))
           }
+          internal-html-renderer(
+            tree,
+            it,
+            footer-content,
+            sidebar-image,
+            pagefind-enabled,
+          )
         })
-        body(class: "dark:bg-zinc-900", internal-html-renderer(
-          tree,
-          it,
-          footer-content,
-          sidebar-image,
-          pagefind-enabled,
-        ))
       })) #it.page-label
     ],
   )
