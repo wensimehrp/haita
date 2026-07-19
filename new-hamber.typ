@@ -50,7 +50,7 @@
       } else if it.content.func() == heading {
         html.h2(class: "font-bold p-2", it.content.body)
       } else {
-        html.div(class: "p-2 prose prose-sm dark:prose-invert", it.content)
+        html.div(class: "p-2 prose prose-neutral prose-sm dark:prose-invert", it.content)
       }
     }
       + if "children" in it and it.children.len() > 0 {
@@ -149,10 +149,39 @@
     ))
     [#std.super(std.link(target-label, str(ftn-len + 1))) #source-label]
     span(
-      class: "footnote-popup",
+      class: "footnote-popup prose prose-neutral !prose-invert prose-sm text-white",
       ftn.body,
     )
   })
+
+  show raw.where(block: true): it => {
+    let code-fn = elem.with(
+      "code",
+      attrs: if it.lang != none { (data-lang: it.lang) } else { (:) },
+    )
+    div(class: "relative group", {
+      elem("button", attrs: (
+        class: {
+          "absolute right-2 top-2 px-2 py-1 z-10"
+          " text-xs font-medium"
+          " border border-neutral-300 bg-white text-neutral-600"
+          " opacity-0 group-hover:opacity-100 transition-opacity"
+          " hover:bg-neutral-100"
+          " dark:border-transparent dark:bg-zinc-800 dark:text-neutral-300 dark:hover:bg-zinc-700"
+        },
+        onclick: ```js
+        navigator.clipboard.writeText(this.nextElementSibling.querySelector('code').textContent).then(() => {
+          this.textContent = 'Copied!'
+          setTimeout(() => { this.textContent = 'Copy'; }, 2000);
+        })
+        ```.text,
+      ))[Copy]
+      pre(code-fn(for line in it.lines {
+        span(class: "line", line)
+        linebreak()
+      }))
+    })
+  }
 
   div(class: "group", {
     div(class: "relative", {
@@ -374,6 +403,7 @@
         ))))
         read("styles/footnote.css")
         read("styles/math.css")
+        read("styles/code-lines.css")
         extra-css
         if pagefind-enabled {
           read("styles/pagefind.css")

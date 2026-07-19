@@ -20,7 +20,8 @@ a single requirement: #link("https://github.com/typst/typst")[Typst]. Here are s
       PDF generation is currently suspended. See #link("https://github.com/typst/typst/issues/8309") for details.
     ]
   - HTML minification.
-- No client side JS by default, including when using Math.
+- Minimal client side JS by default (for copying code). No JS required for math blocks. Site fully usable and
+  navigatable without JS.
 - Good SEO
 - Semantic output, and
 - Minimal setup
