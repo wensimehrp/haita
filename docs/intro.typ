@@ -48,3 +48,10 @@ please #link("https://github.com/wensimehrp/haita/pulls")[open a pull request].
 
 The source and the documentation are available under #link("https://www.apache.org/licenses/LICENSE-2.0")[Apache License
   v2.0].
+
+= Tracking
+
+This site uses #link("https://umami.is/")[Umami] to track visitor status. It stores no cookies and does not collect
+personal data. All data collected are anonymous, and you can disable tracking for this site following #link(
+  "https://docs.umami.is/docs/exclude-my-own-visits",
+)[this guide].

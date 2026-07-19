@@ -16,12 +16,20 @@
   html-renderer: new-hamber.html-renderer.with(
     pagefind-enabled: true,
     summary-image-renderer: new-hamber.summary-image-renderer.with(
-      "Haita Docs",
+      "Haita",
       "https://wensimehrp.github.io",
       bottom-content: [
         Haita is a pure Typst documentation framework
       ],
     ),
+    // tracking script
+    extra-head-content: {
+      elem("script", attrs: (
+        defer: "",
+        src: "https://umami-theta-pink.vercel.app/script.js",
+        data-website-id: "bbe83d2b-314a-4023-87e7-765f49b46a0c",
+      ))
+    },
   ),
   tree: (
     chapter("index", content: include "docs/intro.typ"),
