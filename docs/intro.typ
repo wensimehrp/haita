@@ -22,7 +22,7 @@ a single requirement: #link("https://github.com/typst/typst")[Typst]. Here are s
   - HTML minification.
 - Minimal client side JS by default (for copying code). No JS required for math blocks. Site fully usable and
   navigatable without JS.
-- Good SEO
+- Good SEO, including generating preview images for links.
 - Semantic output, and
 - Minimal setup
 
