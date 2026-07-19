@@ -190,8 +190,10 @@
       {
         sidebar-image
         if pagefind-enabled {
-          elem("pagefind-modal-trigger", attrs: (class: "bg-white dark:bg-black h-9"))
-          elem("pagefind-modal")
+          div(class: "shrink-0 bg-white dark:bg-black h-9", {
+            elem("pagefind-modal-trigger")
+            elem("pagefind-modal")
+          })
         }
         div(
           class: {
