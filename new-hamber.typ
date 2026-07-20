@@ -170,10 +170,27 @@
           " dark:border-transparent dark:bg-zinc-800 dark:text-neutral-300 dark:hover:bg-zinc-700"
         },
         onclick: ```js
-        navigator.clipboard.writeText(this.nextElementSibling.querySelector('code').textContent).then(() => {
-          this.textContent = 'Copied!'
+        const text = this.nextElementSibling.querySelector('code').textContent;
+        const done = () => {
+          this.textContent = 'Copied!';
           setTimeout(() => { this.textContent = 'Copy'; }, 2000);
-        })
+        };
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(done).catch(console.error);
+        } else {
+          const input = document.createElement('textarea');
+          input.value = text;
+          input.style.position = 'fixed';
+          input.style.top = '0';
+          input.style.left = '0';
+          input.style.opacity = '0';
+          input.setAttribute('readonly', '');
+          document.body.appendChild(input);
+          input.select();
+          document.execCommand('copy');
+          document.body.removeChild(input);
+          done();
+        }
         ```.text,
       ))[Copy]
       pre(code-fn(for line in it.lines {
