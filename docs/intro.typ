@@ -28,17 +28,56 @@ a single requirement: #link("https://github.com/typst/typst")[Typst]. Here are s
 
 #import "@preview/merman:0.1.0": mermaid
 
-#figure(caption: [How Haita Works], mermaid(
-  ```mermaid
-  flowchart LR
-  Typst --> Haita
-  Mermaid --> Haita
-  Markdown --> Haita
-  D[...] --> Haita
-  Haita --> HTML
-  Haita --> PDF
-  ```.text,
-))
+#let to-raw-html(content) = {
+  for c in content {
+    if type(c) == dictionary and "tag" in c {
+      let attrs = c.attrs
+      html.elem(c.tag, attrs: attrs, to-raw-html(c.children))
+    } else {
+      c
+    }
+  }
+}
+
+#figure(caption: [How Haita Works], {
+  // TODO: find a way to make this output better SVG
+  //       font; colour; better theming.
+  // ref to merman:
+  //   https://typst.app/universe/package/merman/
+  //   https://github.com/Latias94/merman
+  show image: it => context if target() == "html" {
+    let a = xml(it.source)
+    to-raw-html(a)
+    html.style(
+      ```css
+        text {
+            font-family: "Lato" !important;
+        }
+      ```.text,
+    )
+  } else { it }
+  mermaid(
+    background: "transparent",
+    host-theme: (
+      fontFamily: "Lato",
+      roles: (
+        surface: "#fe84",
+        text: "currentColor",
+        border: "#a988",
+        line: "currentColor",
+      ),
+    ),
+    ```mermaid
+    flowchart LR
+    Typst --> Haita
+    Mermaid --> Haita
+    Markdown --> Haita
+    D[...] --> Haita
+    Haita --> HTML
+    Haita --> PDF
+    ```.text,
+  )
+})
 
 #figure(
   caption: [A math formula example (#link(
