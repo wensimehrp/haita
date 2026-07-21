@@ -23,6 +23,7 @@
           packages = [
             pkgs.typst
             pkgs.pagefind
+            pkgs.just
           ];
         };
       }

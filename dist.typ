@@ -1,4 +1,4 @@
-#!/usr/bin/env -S sh -c 'typst c --features bundle,html --format bundle $0; pagefind --site ./dist --output-subdir haita/pagefind'
+#!/usr/bin/env -S sh -c 'typst c --features bundle,html --format bundle $0 $*'
 #import "lib.typ": *
 #import "@preview/cmarker:0.1.10"
 
