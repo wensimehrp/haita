@@ -1,7 +1,8 @@
 #title[Installation]
 
-Installing Haita's dependencies is incredibly simple! You only need the Typst compiler. Typst will automatically fetch
-the required packages when compiling the documents.
+#import "../readme.typ": installation-fragment-1
+
+#installation-fragment-1
 
 = Installing Typst
 

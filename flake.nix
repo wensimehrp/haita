@@ -26,6 +26,10 @@
             pkgs.just
           ];
         };
+        # for converting Typst to Markdown
+        devShells.prepareRelease = pkgs.mkShell {
+          packages = [ pkgs.pandoc ];
+        };
       }
     );
 }

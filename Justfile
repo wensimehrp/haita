@@ -12,3 +12,7 @@ index: build
 # watch build output
 watch:
     typst watch --features bundle,html --format bundle ./dist.typ ./dist --pretty
+
+# build the readme using pandoc
+build-readme:
+    nix develop .#prepareRelease --command pandoc ./readme.typ -o README.md

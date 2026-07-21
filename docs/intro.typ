@@ -4,27 +4,9 @@
 
 Welcome to the documentation for Haita #version (hǎi tǎ, Mandarin Pinyin, lit. Sea Otter).
 
-Writing documentation is a lame task. It is even more boring and frustrating when you have to setup toolchains and
-environments and debug for hours to make sure that they build correctly, only to find that the current tools cannot plot
-your diagrams, or the PDF generation is missing fonts and takes hours to build. So here's Haita. A simple tool that has
-a single requirement: #link("https://github.com/typst/typst")[Typst]. Here are some features:
+#import "../readme.typ": license-fragment-1, readme-fragment-1
 
-- Pure Typst workflow
-- Features inherited from Typst:
-  - Simple yet expressive Typst syntax helping you focussing on your content
-  - Native syntax highlighting
-  - Native MathML output
-  - Fast compliation
-  - Native support for `watch` and `serve`
-  - PDF and HTML generation from the same source #footnote[
-      PDF generation is currently suspended. See #link("https://github.com/typst/typst/issues/8309") for details.
-    ]
-  - HTML minification.
-- Minimal client side JS by default (for copying code). No JS required for math blocks. Site fully usable and
-  navigatable without JS.
-- Good SEO, including generating preview images for links.
-- Semantic output, and
-- Minimal setup
+#readme-fragment-1
 
 #import "@preview/merman:0.1.0": mermaid
 
@@ -111,8 +93,7 @@ please #link("https://github.com/wensimehrp/haita/pulls")[open a pull request].
 
 = Licensing
 
-The source and the documentation are available under #link("https://www.apache.org/licenses/LICENSE-2.0")[Apache License
-  v2.0].
+#license-fragment-1
 
 = Tracking
 

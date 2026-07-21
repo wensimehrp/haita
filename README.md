@@ -1,100 +1,95 @@
+![Haita with the default theme New Hamber](demo.avif)
+
 # Haita
 
-Here's Haita Docs. A simple tool that
-has a single requirement: [Typst](https://github.com/typst/typst). Here are some features:
+Checkout the [online user
+guide](https://wensimehrp.github.io/haita/installation.html) to start
+using Haita! The guide also uses Haita.
+
+Writing documentation is a lame task. It is even more boring and
+frustrating when you have to setup toolchains and environments and debug
+for hours to make sure that they build correctly, only to find that the
+current tools cannot plot your diagrams, or the PDF generation is
+missing fonts and takes hours to build. So here's Haita. **A simple tool
+that has a single requirement:
+[Typst](https://github.com/typst/typst)**. Here are some features:
 
 - Pure Typst workflow
+
 - Features inherited from Typst:
-  - Simple yet expressive Typst syntax helping you focussing on your content
+
+  - Simple yet expressive Typst syntax helping you focussing on your
+    content
+
   - Native syntax highlighting
+
   - Native MathML output
+
   - Fast compliation
+
   - Native support for `watch` and `serve`
-  - PDF and HTML generation from the same source (
-      PDF generation is currently suspended. See <https://github.com/typst/typst/issues/8309> for details.
-    )
-  - HTML minification
-- No client side JS by default, including when using Math.
-- Good SEO
+
+  - PDF and HTML generation from the same source [^1]
+
+  - HTML minification.
+
+- Minimal client side JS by default (for copying code). No JS required
+  for math blocks. Site fully usable and navigatable without JS.
+
+- Good SEO, including generating preview images for links.
+
 - Semantic output, and
+
 - Minimal setup
-
-## Example
-
-![Otter Docs with the default theme "New Hamber"](./demo.png)
-
-(See [dist.typ](./dist.typ) for a more comprehensive example)
-
-(See <https://wensimehrp.github.io/haita> for an online demo)
-
-`main.typ`:
-
-```typst
-#!/usr/bin/env -S typst compile --features bundle,html --format bundle
-#import "@preview/haita:0.2.1": *
-// Optional markdown support
-#import "@preview/cmarker:0.1.10"
-
-#book(
-  title: "My docs",
-  canonical-url: "https://example.com",
-  tree: (
-    chapter("index"), // this would include content from `intro.typ`
-    [= User Guide],   // A heading in the summary
-    chapter("install"), // this would include content from `install.typ`
-    // Use the `include` syntax if you want to manually specify the filename
-    chapter("tutorial", content: include "docs/tutorial.typ", children: (
-      // Set children chapters here
-      chapter("integration"),
-      chapter("custom-renderer"),
-      chapter("continuous-integration", content: [
-        // Directly write the content if you don't want to make a new file
-        #title[CI]
-        Foo bar baz fizz buzz #lorem(100)
-      ]),
-    )),
-    separator(), // a separator in the summary
-    chapter("changelog",
-      content: title[Changelog]
-        + cmarker.render(
-          read("CHANGELOG.md"),
-        ),
-    ),
-  ),
-)
-```
-
-`index.typ`: 
-
-```typst
-// Always start your page with a title
-#title[My title]
-
-// and place your content afterwards
-```
-
-You can make a new project in Typst using Haita, set it to [bundle export](https://github.com/typst/typst/pull/7964),
-and Haita would generate a site for you. You don't need to worry about setting up the toolchain – Typst
-is the only tool required.
-
-## An Unfinished Project
-
-Haita is a decent choice for organizing long, comprehensive documentation. But just like Typst, Haita is an
-unfinished project, and is (currently) not a serious tool. Specifically, it's missing these features:
-
-- Internationalization support
-- Built-in search functions
-
-However, if you want pure Typst documentation, ease of use, and/or MathML formulae, you might want to give it a try. If
-you want stability and extremely easy syntax, then maybe you should consider mdBook. If you have any issues, please feel
-free to [open a ticket on GitHub](https://github.com/wensimehrp/haita/issues). If you would like to
-contribute, please [open a pull request](https://github.com/wensimehrp/haita/pulls).
 
 ## Installation
 
-You don't need to install anything! Just import the library then write docs!
+Installing Haita's dependencies is incredibly simple! You only need the
+Typst compiler. Typst will automatically fetch the required packages
+when compiling the documents.
+
+## Example
+
+``` typ
+#import "@preview/haita:0.2.1": * // Always remember to import the package
+  #book(
+    // The routing root. Useful when you are deploying to a folder
+    // under your root (e.g. when deployed to GitHub Pages)
+    // root: "haita",
+    // Your document's contents
+    tree: (
+      // You can add arbitrary content. The content will be displayed
+      // in the summary, but will not generate html pages.
+      [= Introduction],
+      // This will create haita/index.html. The content of the
+      // chapter will be from `doc/intro.typ`
+      chapter("index", content: include "doc/intro.typ"),
+      // This will create haita/doc/tutorial.html. In this case,
+      // the content of the chapter is not explicitly stated, so it
+      // looks into ./doc/tutorial.typ in the current workspace.
+      chapter("doc/tutorial"),
+      // You can add dividers, which will separate content in the summary.
+      divider(),
+      // you can also add arbitrary content
+      [Made with Haita],
+      // Alternatively, if you would like to directly include the content
+      // without creating a new file, you can write it like this:
+      chapter("my-page", content: [
+        #title[My Page]
+        = Heading 1
+        = Heading 2
+        foo bar baz
+      ]),
+      // you can add more chapters afterwards.
+    )
+  )
+  
+```
 
 ## Licensing
 
 The source and the documentation are available under [Apache License
-  v2.0](https://www.apache.org/licenses/LICENSE-2.0).
+v2.0](https://www.apache.org/licenses/LICENSE-2.0).
+
+[^1]: PDF generation is currently suspended. See
+    <https://github.com/typst/typst/issues/8309> for details.
