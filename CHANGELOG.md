@@ -3,6 +3,10 @@
 This is the change log for [Haita](https://github.com/wensimehrp/haita),
 a pure Typst documentation framework.
 
+# 0.3.0 (Jul. 21, 2026)
+
+_There are no user-facing changes in this release._
+
 # 0.3.0-rc1 (Jul. 19. 2026)
 
 ## Added
