@@ -131,7 +131,7 @@
   root: (),
   /// The language of the documentation
   /// -> str
-  language: "en",
+  lang: "en",
   /// Which HTML renderer to use. By default it uses _New Hamber_'s html renderer.
   /// -> function
   html-renderer: (..args) => new-hamber.html-renderer.with(
@@ -170,7 +170,7 @@
     //   description: description,
     //   authors: authors,
     //   root: root,
-    //   language: language,
+    //   lang: lang,
     //   ..args,
     // )
   }
@@ -183,7 +183,7 @@
       render-summary-image: render-summary-image,
       authors: authors,
       root: root,
-      language: language,
+      lang: lang,
       ..args,
     )
   }
